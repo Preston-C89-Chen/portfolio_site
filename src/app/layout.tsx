@@ -1,12 +1,8 @@
-import type { Metadata } from 'next'
+"use client";
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { gilroy } from './lib/font'
 
-export const metadata: Metadata = {
-  title: 'Portfolio',
-  description: 'My Personal Portfolio',
-}
 
 export default function RootLayout({
   children,

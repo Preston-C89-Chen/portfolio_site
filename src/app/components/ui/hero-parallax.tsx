@@ -1,4 +1,3 @@
-
 "use client";
 import React from "react";
 import {
@@ -18,7 +17,7 @@ import Sfport1 from "@public/sf-port1.jpg";
 import Sfport2 from "@public/sf-port2.jpg";
 import VF1 from "@public/vf-port1.jpg";
 import VF2 from "@public/vf-port2.jpg";
-import { TextGenerateEffect } from "./text-generate-effect";
+
 const products  = [
   {
     title: "Synapse",
@@ -165,10 +164,10 @@ export const Header = () => {
         Preston Chen  / <br />  Software Engineer
       </h1>
       <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200">
-        <TextGenerateEffect duration={2} filter={false} words={` Coding with flair and crafting systems where numbers and dreams pair.
+        Coding with flair and crafting systems where numbers and dreams pair.
         His language of choice speaks in elegant streams, Python's clarity, and Javascript's specailty fueling product dreams.
         Beyond the syntax, my passion probes AI's creativity.
-        In a world of data, with visions firmly set, we build the future with everyline, a sure bet.`}/>
+        In a world of data, with visions firmly set, we build the future with everyline, a sure bet.
       </p>
     </div>
   );
