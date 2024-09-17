@@ -178,11 +178,7 @@ export const ProductCard = ({
   product,
   translate,
 }: {
-  product: {
-    title: string;
-    link: string;
-    thumbnail: string;
-  };
+  product: any;
   translate: MotionValue<number>;
 }) => {
   return (
