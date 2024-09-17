@@ -16,7 +16,6 @@ import Bli1 from "@public/bli-port1.png";
 import Bli2 from "@public/bli-port2.png";
 import Sfport1 from "@public/sf-port1.jpg";
 import Sfport2 from "@public/sf-port2.jpg";
-import Sfport3 from "@public/sf-port3.jpg";
 import VF1 from "@public/vf-port1.jpg";
 import VF2 from "@public/vf-port2.jpg";
 import { TextGenerateEffect } from "./text-generate-effect";
