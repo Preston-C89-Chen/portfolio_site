@@ -23,12 +23,12 @@ import { TextGenerateEffect } from "./text-generate-effect";
 const products  = [
   {
     title: "Synapse",
-    link: "https://synapsefi.com/",
+    link: "https://dashboard.synapsefi.com/v3/auth/signin",
     thumbnail: Sfport1,
   },
   {
     title: "Synapse",
-    link: "https://synapsefi.com/",
+    link: "https://dashboard.synapsefi.com/v3/auth/signin",
     thumbnail: Sfport2,
   },
   {

@@ -1,6 +1,5 @@
 
 import { motion } from "framer-motion";
-import SmallSvg from 'small.svg'
 import { AuroraBackground } from "./ui/aurora-background";
 function LargeHeader(){
     return (

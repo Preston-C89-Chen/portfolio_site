@@ -3,8 +3,6 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { gilroy } from './lib/font'
 
-
-
 export const metadata: Metadata = {
   title: 'Portfolio',
   description: 'My Personal Portfolio',

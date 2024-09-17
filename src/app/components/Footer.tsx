@@ -4,7 +4,6 @@ import React from 'react'
 import { SlSocialGithub } from "react-icons/sl";
 import { SlSocialLinkedin } from "react-icons/sl";
 import { SlSocialTwitter } from "react-icons/sl";
-import { SlSocialInstagram } from "react-icons/sl";
 
 const Footer = () => {
   return (
@@ -22,7 +21,6 @@ const Footer = () => {
           </Link>
         </div>
       </div>
-
     </div>
   )
 }
