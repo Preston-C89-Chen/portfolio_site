@@ -1,0 +1,128 @@
+# Preston Chen
+## Frontend Design Engineer
+
+**South San Francisco, CA**
+📧 pchen415@gmail.com | 📱 (415) 312-9225
+🌐 [Personal Site](https://your-site.com) | [GitHub](https://github.com/Preston-C89-Chen) | [LinkedIn](https://linkedin.com/in/preston-chen-b2459853)
+
+---
+
+## Professional Summary
+
+Frontend Design Engineer with **8+ years of experience** bridging design and development. Combines a **BA in Graphic Design** with deep technical expertise in React, TypeScript, and modern animation libraries. Specializes in building **design systems**, **component libraries**, and creating **pixel-perfect, performant user interfaces** with thoughtful microinteractions. Proven track record of collaborating with design teams to translate Figma mockups into production-ready, accessible components.
+
+---
+
+## Technical Skills
+
+**Design Tools**
+Figma • Adobe Creative Suite • Sketch • Prototyping Tools • Design Systems
+
+**Frontend Engineering**
+React.js • TypeScript • Next.js • JavaScript (ES6+) • HTML5 • CSS3/SASS
+
+**Animation & Graphics**
+Framer Motion • Three.js • React Three Fiber • GSAP • WebGL • P5.js
+
+**Design Systems & Architecture**
+Component Architecture • Design Tokens • Storybook • Accessibility (WCAG) • Responsive Design
+
+**Backend & DevOps**
+Node.js • GraphQL • REST APIs • Git/GitHub • Docker • Kubernetes
+
+**Databases**
+MongoDB • SQL
+
+**Additional Skills**
+Python • Django • Data Visualization • Performance Optimization
+
+---
+
+## Professional Experience
+
+### Software Engineer III | **Synapsefi** | San Francisco, CA
+*July 2019 - October 2023*
+
+• **Architected and maintained React.js component library** following design system principles, ensuring consistent UI/UX across multiple banking products
+
+• **Designed and implemented client settings dashboard module** with intuitive UI for managing user permissions and financial account limits
+
+• **Collaborated with design team** to create pixel-perfect implementations of complex financial interfaces
+
+• Contributed to core API microservices while maintaining design-development workflow efficiency
+
+• Built **interactive data visualization components** for bank statements and financial reports, processing 10k+ account migrations
+
+• Optimized component performance for large batch operations and real-time cryptocurrency liquidation reporting
+
+---
+
+### Contract Frontend Design Engineer | **Multiple Companies** | San Francisco, CA
+*Lion Interactive • BriteLite Immersive • ViewFind • BrightEdge*
+*March 2015 - July 2019*
+
+• **Designed and developed interactive multimedia web experiences** utilizing React.js, sound design, animations, images, and video for immersive editorial content
+
+• **Contributed to UI component design systems**, establishing reusable patterns and design tokens for scalability
+
+• **Collaborated closely with design and backend teams** through iterative design-development cycles to deliver products aligned with client expectations
+
+• Translated Figma/Sketch designs into **responsive, accessible React components** integrated with Django admin and REST APIs
+
+• Created **motion design specifications** and implemented smooth microinteractions using CSS animations and JavaScript
+
+• Established component API standards and documentation for design handoff processes
+
+---
+
+## Education
+
+**University of Boulder**
+MS Data Science | *2023 - Present*
+
+**San Jose State University**
+BA Graphic Design | *Graduated*
+
+---
+
+## Featured Projects & Design Work
+
+### Design System & Component Library | Synapsefi
+• Built comprehensive React component library with variants, states, and accessibility features
+• Established design token system for colors, typography, spacing, and elevation
+• Created Storybook documentation for 50+ reusable components
+
+### Autonomous Vehicle Data Visualization | Personal Project
+• Designed and developed real-time ROS (Robot Operating System) data visualization dashboard for self-driving car telemetry
+• Built interactive 3D vehicle positioning and sensor data display using React Three Fiber and WebGL
+• Implemented WebSocket integration for live streaming of autonomous vehicle metrics and camera feeds
+• Created responsive data visualization components for LIDAR point clouds, trajectory planning, and obstacle detection
+• **Tech stack:** React.js, TypeScript, ROS Bridge, Three.js, D3.js, WebSockets
+
+### Multimedia Editorial Experiences | BriteLite Immersive
+• Designed and developed immersive web experiences combining sound design, video, and interactive animations
+• Implemented responsive layouts optimized for multi-device storytelling
+• Focused on performance optimization for media-heavy applications
+
+---
+
+## Professional Highlights
+
+✨ **Unique hybrid background:** Formal design education (BA Graphic Design) + extensive engineering experience
+
+🎨 **Design + Code specialist:** Can design in Figma AND implement production-ready components
+
+🏗️ **Design systems advocate:** Strong believer in component-driven development and systematic design thinking
+
+🤝 **Bridge builder:** Experience facilitating communication between design and engineering teams
+
+⚡ **Performance focused:** Passionate about creating delightful user experiences through thoughtful microinteractions and optimization
+
+---
+
+## Certifications & Continuous Learning
+
+• Advanced React Patterns & Performance Optimization
+• Design Systems Architecture
+• Web Accessibility (WCAG 2.1)
+• Motion Design for Web
