@@ -1,7 +1,7 @@
 "use client";
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { gilroy } from './lib/font'
+import { gilroy, tiroDevanagari } from './lib/font'
 
 
 export default function RootLayout({
@@ -11,7 +11,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={gilroy.className}>{children}</body>
+      <body className={`${gilroy.variable} ${tiroDevanagari.variable} ${gilroy.className}`}>{children}</body>
     </html>
   )
 }

@@ -33,3 +33,18 @@ export const gilroy = localFont({
     ],
     variable: "--font-gilroy",
 })
+
+export const tiroDevanagari = localFont({
+    src: [
+        {
+            path: '../../../public/fonts/TiroDevanagariSanskrit-Regular.ttf',
+            weight: "400",
+        },
+        {
+            path: '../../../public/fonts/TiroDevanagariSanskrit-Italic.ttf',
+            weight: "400",
+            style: "italic",
+        }
+    ],
+    variable: "--font-tiro-devanagari",
+})

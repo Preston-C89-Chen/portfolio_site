@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic"; 
+import dynamic from "next/dynamic";
 const Sketch = dynamic(() => import("react-p5"), { ssr: false });
 
 const P5_Sanskrit = (): JSX.Element => {
@@ -12,6 +12,7 @@ const P5_Sanskrit = (): JSX.Element => {
   let amplitude = 80; // Amplitude of the oscillation of the radius
   let period = 200; // How many frames for one cycle of the first set
   let periodSecond = 120; // Different period for the second set
+  let sanskritFont: any;
 
   // State to check if the component is being rendered on the client side
   const [isClient, setIsClient] = useState(false);
@@ -21,16 +22,27 @@ const P5_Sanskrit = (): JSX.Element => {
     setIsClient(true);
   }, []);
 
+  const preload = (p5: any) => {
+    // Load the Tiro Devanagari Sanskrit font
+    sanskritFont = p5.loadFont('/fonts/TiroDevanagariSanskrit-Regular.ttf');
+  };
+
   const setup = (p5: any) => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight);
     baseRadius = p5.min(p5.width, p5.height) / 2;
     p5.textSize(baseRadius / 4);
     p5.textAlign(p5.CENTER, p5.CENTER);
     p5.frameRate(30); // Higher frame rate for smoother animation
+
+    // Set the Sanskrit font if loaded
+    if (sanskritFont) {
+      p5.textFont(sanskritFont);
+    }
   };
 
   const windowResized = (p5: any) => {
-    setup(p5);
+    p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
+    baseRadius = p5.min(p5.width, p5.height) / 2;
   };
 
   const drawCircle = (p5: any, circleData: any, radiusMultiplier: any, hue: string) => {
@@ -50,7 +62,12 @@ const P5_Sanskrit = (): JSX.Element => {
       p5.fill(color);
       p5.noStroke();
       p5.textSize(textSizeStep);
-      p5.textFont("Tiro");
+
+      // Use the loaded Sanskrit font
+      if (sanskritFont) {
+        p5.textFont(sanskritFont);
+      }
+
       p5.text(circleData["phrase"][i], 0, 0);
       p5.pop();
 
@@ -88,6 +105,7 @@ const P5_Sanskrit = (): JSX.Element => {
     <>
       {isClient && (
         <Sketch
+          preload={preload}
           setup={setup}
           draw={draw}
           windowResized={windowResized}

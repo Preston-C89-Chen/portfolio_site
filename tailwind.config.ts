@@ -25,6 +25,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         gilroy: ['var(--font-gilroy)'],
+        tiro: ['var(--font-tiro-devanagari)'],
       },
       animation: {
         aurora: "aurora 60s linear infinite"
