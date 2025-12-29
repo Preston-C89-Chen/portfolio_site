@@ -24,43 +24,60 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
+        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Courier New', 'monospace'],
         gilroy: ['var(--font-gilroy)'],
         tiro: ['var(--font-tiro-devanagari)'],
       },
-      animation: {
-        aurora: "aurora 60s linear infinite"
-      },
-      keyframes: {
-        aurora: {
-          from: {
-            backgroundPosition: "50% 50%, 50% 50%",
-          },
-          to: {
-            backgroundPosition: "350% 50%, 350% 50%",
-          },
-        },
+      fontSize: {
+        'xs': '0.64rem',
+        'sm': '0.8rem',
+        'base': '1rem',
+        'md': '1.25rem',
+        'lg': '1.563rem',
+        'xl': '1.953rem',
+        '2xl': '2.441rem',
+        '3xl': '3.052rem',
+        '4xl': '3.815rem',
+        '5xl': '4.768rem',
       },
       colors: {
-        // Primary Accent Gradient
-        blueOne: 'rgba(147, 250, 186, 1)',     // Mint Green
-        blueTwo: 'rgba(140, 238, 214, 1)',     // Teal
-        blueThree: 'rgba(130, 224, 249, 1)',   // Cyan Blue
+        // Swiss Design Colors
+        'swiss-white': '#FFFFFF',
+        'swiss-black': '#000000',
+        'swiss-red': '#FF0000',
+        'swiss-yellow': '#FFD700',
+        'swiss-orange': '#FF6B35',
 
-        // Semantic Colors for Design Engineering
-        colorCode: '#00D9FF',                   // Code snippets - bright cyan
-        colorDesign: '#B4F8C8',                // Design tools - mint
-        colorInteraction: '#A0E7E5',           // Interactive elements
-        colorDataViz: '#FFA6C9',               // Data visualization - pink
-
-        // Backgrounds
-        bannerColor: 'rgba(23, 27, 34, 0.4)',
-        menuBg: 'rgba(0, 0, 0, 0.3)',
-
-        // Surface Elevation (Glass)
-        surface1: 'rgba(23, 27, 34, 0.4)',     // Glass surface
-        surface2: 'rgba(31, 41, 55, 0.6)',     // Elevated
-        surface3: 'rgba(40, 50, 65, 0.8)',     // Highest
-      }
+        // 12-step Gray Scale
+        gray: {
+          1: '#FCFCFC',
+          2: '#F9F9F9',
+          3: '#F0F0F0',
+          4: '#E8E8E8',
+          5: '#E0E0E0',
+          6: '#D1D1D1',
+          7: '#B4B4B4',
+          8: '#8E8E8E',
+          9: '#6B6B6B',
+          10: '#4A4A4A',
+          11: '#2E2E2E',
+          12: '#1A1A1A',
+        },
+      },
+      spacing: {
+        '128': '32rem',
+        '144': '36rem',
+      },
+      borderRadius: {
+        'none': '0',
+      },
+      boxShadow: {
+        'none': 'none',
+      },
+      transitionTimingFunction: {
+        'rauno': 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+      },
     },
   },
   plugins: [
