@@ -92,13 +92,6 @@ BA Graphic Design | *Graduated*
 • Established design token system for colors, typography, spacing, and elevation
 • Created Storybook documentation for 50+ reusable components
 
-### Autonomous Vehicle Data Visualization | Personal Project
-• Designed and developed real-time ROS (Robot Operating System) data visualization dashboard for self-driving car telemetry
-• Built interactive 3D vehicle positioning and sensor data display using React Three Fiber and WebGL
-• Implemented WebSocket integration for live streaming of autonomous vehicle metrics and camera feeds
-• Created responsive data visualization components for LIDAR point clouds, trajectory planning, and obstacle detection
-• **Tech stack:** React.js, TypeScript, ROS Bridge, Three.js, D3.js, WebSockets
-
 ### Multimedia Editorial Experiences | BriteLite Immersive
 • Designed and developed immersive web experiences combining sound design, video, and interactive animations
 • Implemented responsive layouts optimized for multi-device storytelling
