@@ -40,12 +40,25 @@ const config: Config = {
         },
       },
       colors: {
-        blueOne: 'rgba(147, 250, 186, 1)',
-        blueTwo: 'rgba(140, 238, 214, 1)',
-        blueThree: 'rgba(130, 224, 249, 1)',
+        // Primary Accent Gradient
+        blueOne: 'rgba(147, 250, 186, 1)',     // Mint Green
+        blueTwo: 'rgba(140, 238, 214, 1)',     // Teal
+        blueThree: 'rgba(130, 224, 249, 1)',   // Cyan Blue
+
+        // Semantic Colors for Design Engineering
+        colorCode: '#00D9FF',                   // Code snippets - bright cyan
+        colorDesign: '#B4F8C8',                // Design tools - mint
+        colorInteraction: '#A0E7E5',           // Interactive elements
+        colorDataViz: '#FFA6C9',               // Data visualization - pink
+
+        // Backgrounds
         bannerColor: 'rgba(23, 27, 34, 0.4)',
-        // cardColor : '#404040',
         menuBg: 'rgba(0, 0, 0, 0.3)',
+
+        // Surface Elevation (Glass)
+        surface1: 'rgba(23, 27, 34, 0.4)',     // Glass surface
+        surface2: 'rgba(31, 41, 55, 0.6)',     // Elevated
+        surface3: 'rgba(40, 50, 65, 0.8)',     // Highest
       }
     },
   },
