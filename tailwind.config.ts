@@ -30,16 +30,44 @@ const config: Config = {
         tiro: ['var(--font-tiro-devanagari)'],
       },
       fontSize: {
-        'xs': '0.64rem',
-        'sm': '0.8rem',
+        // Devouring Details type scale (pixel-based, precise)
+        '12': '0.75rem',      // 12px
+        '13': '0.8125rem',    // 13px
+        '14': '0.875rem',     // 14px
+        '15': '0.9375rem',    // 15px
+        '16': '1rem',         // 16px - base
+        '18': '1.125rem',     // 18px
+        '20': '1.25rem',      // 20px
+        '24': '1.5rem',       // 24px
+        '32': '2rem',         // 32px
+        '40': '2.5rem',       // 40px
+        '48': '3rem',         // 48px
+        '64': '4rem',         // 64px
+
+        // Keep Tailwind defaults for compatibility
+        'xs': '0.75rem',
+        'sm': '0.875rem',
         'base': '1rem',
-        'md': '1.25rem',
-        'lg': '1.563rem',
-        'xl': '1.953rem',
-        '2xl': '2.441rem',
-        '3xl': '3.052rem',
-        '4xl': '3.815rem',
-        '5xl': '4.768rem',
+        'lg': '1.125rem',
+        'xl': '1.25rem',
+        '2xl': '1.5rem',
+        '3xl': '1.875rem',
+        '4xl': '2.25rem',
+        '5xl': '3rem',
+        '6xl': '3.75rem',
+        '7xl': '4.5rem',
+        '8xl': '6rem',
+        '9xl': '8rem',
+      },
+      lineHeight: {
+        '16': '1rem',
+        '20': '1.25rem',
+        '28': '1.75rem',
+        '32': '2rem',
+      },
+      fontWeight: {
+        '500': '500',
+        'bold': '700',
       },
       colors: {
         // Swiss Design Colors

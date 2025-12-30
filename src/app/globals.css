@@ -94,6 +94,41 @@
     background: #FF0000;
     margin: 3rem 0;
   }
+
+  /* Translate Center Utilities - from Devouring Details */
+  .translate-center-x {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .translate-center-y {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .translate-center {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Flex center utility */
+  .flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Main content padding for scroll tracker on desktop */
+  .main-content-wrapper {
+    padding-left: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .main-content-wrapper {
+      padding-left: 400px; /* Space for scroll tracker + horizontal line */
+    }
+  }
 }
 
 /* Hide scrollbar */

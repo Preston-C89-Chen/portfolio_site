@@ -3,6 +3,7 @@ import FooterSwiss from './components/FooterSwiss'
 import { HeroSwiss } from './components/ui/hero-swiss';
 import { WorkSwiss } from './components/ui/work-swiss';
 import { SkillsSwiss } from './components/ui/skills-swiss';
+import { ScrollProgressTracker } from './components/ScrollProgressTracker';
 
 // Import project images
 import Sfport1 from "@public/sf-port1.jpg";
@@ -51,12 +52,15 @@ const projects = [
 export default function Home() {
   return (
     <>
-      <main className="min-h-screen">
-        <HeroSwiss />
-        <WorkSwiss projects={projects} />
-        <SkillsSwiss />
-      </main>
-      <FooterSwiss />
+      <ScrollProgressTracker />
+      <div className="main-content-wrapper">
+        <main className="min-h-screen">
+          <HeroSwiss />
+          <WorkSwiss projects={projects} />
+          <SkillsSwiss />
+        </main>
+        <FooterSwiss />
+      </div>
     </>
   )
 }

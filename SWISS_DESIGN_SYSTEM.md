@@ -98,31 +98,35 @@
 }
 ```
 
-### Modular Type Scale (Mathematical Ratio: 1.25 - Major Third)
+### Modular Type Scale (Pixel-Perfect - Devouring Details System)
 
 ```css
-/* Base: 16px, Scale: 1.25 (Major Third) */
---text-xs: 0.64rem;      /* 10.24px - Fine print */
---text-sm: 0.8rem;       /* 12.8px - Small text */
---text-base: 1rem;       /* 16px - Body text */
---text-md: 1.25rem;      /* 20px - Large body */
---text-lg: 1.563rem;     /* 25px - H4 */
---text-xl: 1.953rem;     /* 31.25px - H3 */
---text-2xl: 2.441rem;    /* 39px - H2 */
---text-3xl: 3.052rem;    /* 48.83px - H1 */
---text-4xl: 3.815rem;    /* 61px - Display */
---text-5xl: 4.768rem;    /* 76.29px - Hero */
+/* Pixel-Based Type Scale - Inspired by Devouring Details */
+/* Provides precise control and consistent rendering across browsers */
+
+--text-12: 0.75rem;      /* 12px - Fine print, captions */
+--text-13: 0.8125rem;    /* 13px - Small metadata */
+--text-14: 0.875rem;     /* 14px - Secondary text */
+--text-15: 0.9375rem;    /* 15px - Tertiary text */
+--text-16: 1rem;         /* 16px - Base body text */
+--text-18: 1.125rem;     /* 18px - Large body */
+--text-20: 1.25rem;      /* 20px - Subheadings */
+--text-24: 1.5rem;       /* 24px - H4 */
+--text-32: 2rem;         /* 32px - H3 */
+--text-40: 2.5rem;       /* 40px - H2 */
+--text-48: 3rem;         /* 48px - H1 */
+--text-64: 4rem;         /* 64px - Hero/Display */
 
 /* Font Weights (Limited, Swiss style) */
---weight-light: 300;
 --weight-regular: 400;
 --weight-medium: 500;
 --weight-bold: 700;
 
-/* Line Heights (Modular) */
---leading-tight: 1.2;     /* Headlines */
---leading-normal: 1.5;    /* Body text */
---leading-relaxed: 1.618; /* Golden ratio for emphasis */
+/* Line Heights (Pixel-Based for Precision) */
+--leading-16: 1rem;       /* 16px - Compact */
+--leading-20: 1.25rem;    /* 20px - Tight */
+--leading-28: 1.75rem;    /* 28px - Normal */
+--leading-32: 2rem;       /* 32px - Relaxed */
 
 /* Letter Spacing */
 --tracking-tight: -0.02em;
@@ -130,6 +134,12 @@
 --tracking-wide: 0.05em;
 --tracking-wider: 0.1em;  /* For uppercase */
 ```
+
+**Why Pixel-Perfect Scale?**
+- **Precision**: Exact control over typography at every size
+- **Consistency**: No rounding errors from mathematical ratios
+- **Design-Dev Parity**: Matches Figma/design tool pixel values exactly
+- **Browser Rendering**: Cleaner rendering at whole pixel increments
 
 ### Typography Rules
 
@@ -1134,6 +1144,160 @@ const [copied, setCopied] = useState(false);
 ---
 
 This modern interpretation maintains Swiss rigor while embracing contemporary web patterns, inspired by Rauno's carefully crafted approach to minimalist portfolio design.
+
+---
+
+## 🎚️ Interactive Components
+
+### Scroll Progress Tracker
+
+**Component:** Segmented ruler with arrow indicator inspired by Devouring Details
+
+```tsx
+// ScrollProgressTracker.tsx
+'use client';
+import { useEffect, useState } from 'react';
+
+export const ScrollProgressTracker = () => {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [currentSegment, setCurrentSegment] = useState(0);
+  const [segmentProgress, setSegmentProgress] = useState(0);
+
+  const totalSegments = 5;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
+      const totalScrollableHeight = documentHeight - windowHeight;
+      const progress = (scrollTop / totalScrollableHeight) * 100;
+
+      setScrollProgress(Math.min(100, Math.max(0, progress)));
+
+      // Calculate segment and progress within segment
+      const segmentSize = 100 / totalSegments;
+      const segment = Math.floor(progress / segmentSize);
+      const progressInSegment = (progress % segmentSize) / segmentSize;
+
+      setCurrentSegment(Math.min(segment, totalSegments - 1));
+      setSegmentProgress(progressInSegment * 100);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [totalSegments]);
+
+  const segments = Array.from({ length: totalSegments }, (_, i) => i);
+
+  return (
+    <div className="fixed translate-center-y left-8 hidden lg:block z-[3]">
+      <div className="relative flex flex-col items-start">
+        {segments.map((segment, index) => {
+          const isCurrentSegment = segment === currentSegment;
+          const isPastSegment = segment < currentSegment;
+
+          return (
+            <div key={segment} className="relative" style={{ height: '80px' }}>
+              {/* Ruler marks - 5 lines per segment */}
+              <div className="flex flex-col gap-[6px]">
+                {[0, 1, 2, 3, 4].map((mark) => {
+                  const isLast = mark === 4 && index === segments.length - 1;
+                  return (
+                    <div
+                      key={mark}
+                      className={`h-[1px] transition-all duration-200 ${
+                        isPastSegment || (isCurrentSegment && mark * 20 <= segmentProgress)
+                          ? 'bg-swiss-black w-12'
+                          : 'bg-gray-4 w-8'
+                      } ${isLast ? 'w-12 bg-swiss-black' : ''}`}
+                    />
+                  );
+                })}
+              </div>
+
+              {/* Arrow indicator at current position */}
+              {isCurrentSegment && (
+                <div
+                  className="absolute left-0 flex items-center transition-all duration-100 ease-out"
+                  style={{ top: `${segmentProgress * 0.8}px` }}
+                >
+                  {/* Orange arrow triangle */}
+                  <div className="w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[8px] border-l-swiss-orange" />
+                  {/* Horizontal orange line */}
+                  <div className="h-[2px] bg-swiss-orange w-[300px]" />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+```
+
+**CSS Utilities for Positioning:**
+
+```css
+/* Translate Center Utilities */
+.translate-center-x {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.translate-center-y {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.translate-center {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Main content padding for desktop */
+.main-content-wrapper {
+  padding-left: 0;
+}
+
+@media (min-width: 1024px) {
+  .main-content-wrapper {
+    padding-left: 400px; /* Space for scroll tracker + horizontal line */
+  }
+}
+```
+
+**Features:**
+- ✅ Segmented ruler with 5 major sections (customizable)
+- ✅ 5 horizontal lines per segment for granular progress
+- ✅ Lines grow longer and turn black as you scroll past them
+- ✅ Orange arrow indicator pointing to current position
+- ✅ Orange horizontal line extending 300px to the right
+- ✅ Smooth transitions within segments (100ms)
+- ✅ Fixed position on left side, vertically centered
+- ✅ Hidden on mobile/tablet (visible only on lg+ screens)
+- ✅ Main content padded 400px on desktop to avoid overlap
+- ✅ Passive scroll listener for performance
+- ✅ Z-index 3 to float above content
+
+**Design Rationale:**
+- **Segmented Progress**: Divides page into logical sections rather than continuous percentage
+- **Visual Hierarchy**: Past sections = bold black lines, current = growing, future = light gray
+- **Arrow Indicator**: Orange triangle provides precise position feedback
+- **Swiss Aesthetic**: Minimalist ruler design with precise measurements
+- **No Numeric Display**: Visual-only feedback maintains clean aesthetic
+- **Orange Accent**: Uses secondary Swiss color for interactive element
+- **Desktop-Only**: Complex interaction hidden on small screens to preserve UX
+- **Content Spacing**: Ensures text doesn't overlap with tracker on wide screens
 
 ---
 
