@@ -24,25 +24,23 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        sans: ['Instrument Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        secondary: ['Figtree', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'Courier New', 'monospace'],
         gilroy: ['var(--font-gilroy)'],
         tiro: ['var(--font-tiro-devanagari)'],
       },
       fontSize: {
-        // Devouring Details type scale (pixel-based, precise)
-        '12': '0.75rem',      // 12px
-        '13': '0.8125rem',    // 13px
-        '14': '0.875rem',     // 14px
-        '15': '0.9375rem',    // 15px
-        '16': '1rem',         // 16px - base
-        '18': '1.125rem',     // 18px
-        '20': '1.25rem',      // 20px
-        '24': '1.5rem',       // 24px
-        '32': '2rem',         // 32px
-        '40': '2.5rem',       // 40px
-        '48': '3rem',         // 48px
-        '64': '4rem',         // 64px
+        // Minimalist Typographic Scale
+        'display-xl': ['6.5625rem', { lineHeight: '0', letterSpacing: '-5.5125px' }],  // 105px - Hero
+        'display-lg': ['5.5rem', { lineHeight: '1.1', letterSpacing: '-3.872px' }],    // 88px - Tablet
+        'display-md': ['4rem', { lineHeight: '1.1', letterSpacing: '-2.048px' }],      // 64px - Large heading
+        'display-sm': ['2.75rem', { lineHeight: '1.1', letterSpacing: '-0.968px' }],   // 44px - Mobile heading
+        'h1': ['2.3125rem', { lineHeight: '1.1', letterSpacing: '-0.968px' }],         // 37px - H1
+        'h1-mobile': ['1.5rem', { lineHeight: '1.1', letterSpacing: '-0.4px' }],       // 24px - Mobile H1
+        'body-lg': ['1.25rem', { lineHeight: '1.5', letterSpacing: '-0.2px' }],        // 20px - Large body
+        'body': ['1rem', { lineHeight: '1.5', letterSpacing: '-0.2px' }],              // 16px - Base
+        'body-sm': ['0.9375rem', { lineHeight: '1.5', letterSpacing: '-0.2px' }],      // 15px - Small
 
         // Keep Tailwind defaults for compatibility
         'xs': '0.75rem',
@@ -70,7 +68,14 @@ const config: Config = {
         'bold': '700',
       },
       colors: {
-        // Swiss Design Colors
+        // Minimalist Monochrome Palette
+        'bg': '#FFFFFF',
+        'text': '#000000',
+        'text-muted': '#767676',
+        'border': '#E5E5E5',
+        'hover': '#F5F5F5',
+
+        // Keep previous Swiss colors for backward compatibility
         'swiss-white': '#FFFFFF',
         'swiss-black': '#000000',
         'swiss-red': '#FF0000',
@@ -105,6 +110,19 @@ const config: Config = {
       },
       transitionTimingFunction: {
         'rauno': 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+        'gentle': 'cubic-bezier(0.4, 0.0, 0.2, 1)',
+      },
+      transitionDuration: {
+        'instant': '0ms',
+        'fast': '150ms',
+        'base': '200ms',
+        'slow': '300ms',
+      },
+      maxWidth: {
+        'container-sm': '640px',
+        'container-md': '800px',
+        'container-lg': '1280px',
+        'container-xl': '2048px',
       },
     },
   },
