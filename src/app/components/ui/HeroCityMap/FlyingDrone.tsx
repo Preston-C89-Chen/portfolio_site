@@ -5,11 +5,16 @@ import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { DroneModel } from './DroneModel';
 
-const PROXIMITY_THRESHOLD = 3.0; // scene units — how close mouse must be to attract drone
-const TRACKING_LERP = 0.03;      // how fast drone moves toward mouse
-const PATROL_LERP = 0.015;       // how fast drone returns to patrol path
+const PROXIMITY_THRESHOLD = 3.0;
+const TRACKING_LERP = 0.03;
+const PATROL_LERP = 0.015;
 
-export const FlyingDrone = () => {
+type FlyingDroneProps = {
+  interactive?: boolean;
+  scale?: number;
+};
+
+export const FlyingDrone = ({ interactive = true, scale = 1.2 }: FlyingDroneProps) => {
   const pivotRef = useRef<THREE.Group>(null);
   const mouseWorldRef = useRef(new THREE.Vector3(0, 0, 3));
   const isTrackingRef = useRef(false);
@@ -34,8 +39,9 @@ export const FlyingDrone = () => {
     }
   }, [camera, size]);
 
-  // Mouse event handler — only attached when hero is in view
+  // Mouse event handler — only attached when hero is in view AND interactive
   useEffect(() => {
+    if (!interactive) return;
     const heroSection = document.querySelector('[data-hero-section]');
     if (!heroSection) return;
 
@@ -69,7 +75,7 @@ export const FlyingDrone = () => {
       observer.disconnect();
       window.removeEventListener('mousemove', onMouseMove);
     };
-  }, [updateMouseWorld]);
+  }, [updateMouseWorld, interactive]);
 
   useFrame(({ clock }) => {
     if (!pivotRef.current) return;
@@ -81,17 +87,23 @@ export const FlyingDrone = () => {
     const patrolZ = 4.0 + Math.sin(t * 0.7) * 0.5;
     const patrolPos = new THREE.Vector3(patrolX, patrolY, patrolZ);
 
-    // Check proximity to mouse
-    const mousePos = mouseWorldRef.current;
-    const distToMouse = patrolPos.distanceTo(
-      new THREE.Vector3(mousePos.x, mousePos.y, patrolZ),
-    );
+    // Check proximity to mouse (interactive only)
+    if (interactive) {
+      const mousePos = mouseWorldRef.current;
+      const distToMouse = patrolPos.distanceTo(
+        new THREE.Vector3(mousePos.x, mousePos.y, patrolZ),
+      );
 
-    if (distToMouse < PROXIMITY_THRESHOLD) {
-      isTrackingRef.current = true;
-    } else if (distToMouse > PROXIMITY_THRESHOLD * 2) {
+      if (distToMouse < PROXIMITY_THRESHOLD) {
+        isTrackingRef.current = true;
+      } else if (distToMouse > PROXIMITY_THRESHOLD * 2) {
+        isTrackingRef.current = false;
+      }
+    } else {
       isTrackingRef.current = false;
     }
+
+    const mousePos = mouseWorldRef.current;
 
     // Target position
     let targetX: number, targetY: number, targetZ: number;
@@ -133,7 +145,7 @@ export const FlyingDrone = () => {
 
   return (
     <group ref={pivotRef} renderOrder={10}>
-      <DroneModel scale={1.2} />
+      <DroneModel scale={scale} />
     </group>
   );
 };
