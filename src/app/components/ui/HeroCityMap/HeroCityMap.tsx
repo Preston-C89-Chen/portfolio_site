@@ -9,6 +9,7 @@ import {
 } from "framer-motion";
 import { CityLabel } from "./CityLabel";
 import { FigureGroundPanel } from "./FigureGroundPanel";
+import { DroneMinimapIndicator } from "./DroneMinimapIndicator";
 import { useCityRotation } from "./useCityRotation";
 
 const PointCloudBackground = dynamic(
@@ -85,27 +86,33 @@ export const HeroCityMap = ({ revealReady = true }: HeroCityMapProps) => {
         <PointCloudBackground cityName={currentCity.name} />
       </div>
 
-      {/* Layer 2a: Figure-ground panel — mobile (top-right, square) */}
-      <div className="absolute top-[80px] right-4 w-[35%] aspect-square z-[1] md:hidden">
-        <div className="relative h-full w-full overflow-hidden rounded-sm opacity-40">
-          <div
-            key={`mobile-${currentCity.name}`}
-            className="absolute inset-0 animate-slow-zoom"
-          >
-            <FigureGroundPanel cityName={currentCity.name} />
+      {/* Layer 2a: Figure-ground panel — mobile (top-right, square, below nav) */}
+      <div className="absolute top-[120px] right-4 w-[22vw] min-w-[80px] max-w-[140px] aspect-square z-[1] md:hidden">
+        <div className="relative h-full w-full overflow-hidden rounded-sm">
+          <div className="absolute inset-0 opacity-40">
+            <div
+              key={`mobile-${currentCity.name}`}
+              className="absolute inset-0 animate-slow-zoom"
+            >
+              <FigureGroundPanel cityName={currentCity.name} />
+            </div>
           </div>
+          <DroneMinimapIndicator />
         </div>
       </div>
 
       {/* Layer 2b: Figure-ground panel — desktop (bottom-right, square) */}
-      <div className="absolute bottom-8 right-8 md:right-16 lg:right-24 w-[22%] max-w-[360px] aspect-square z-[1] hidden md:block">
-        <div className="relative h-full w-full overflow-hidden rounded-sm opacity-40">
-          <div
-            key={currentCity.name}
-            className="absolute inset-0 animate-slow-zoom"
-          >
-            <FigureGroundPanel cityName={currentCity.name} />
+      <div className="absolute bottom-8 right-8 md:right-16 lg:right-24 w-[14vw] min-w-[140px] max-w-[260px] aspect-square z-[1] hidden md:block">
+        <div className="relative h-full w-full overflow-hidden rounded-sm">
+          <div className="absolute inset-0 opacity-40">
+            <div
+              key={currentCity.name}
+              className="absolute inset-0 animate-slow-zoom"
+            >
+              <FigureGroundPanel cityName={currentCity.name} />
+            </div>
           </div>
+          <DroneMinimapIndicator />
         </div>
       </div>
 
@@ -169,7 +176,7 @@ export const HeroCityMap = ({ revealReady = true }: HeroCityMapProps) => {
           variants={footerVariants}
           initial="hidden"
           animate={shouldReveal ? "visible" : "hidden"}
-          className="border-t border-black/10 pb-8 pt-8 md:w-1/2"
+          className="border-t border-black/10 pt-8 pb-24 md:pb-8 md:w-1/2"
         >
           <p className="font-mono max-w-lg text-xs text-black/50 bg-white/80 backdrop-blur-sm px-4 py-3 w-fit leading-relaxed">
             Data quality engineer with 5+ years in software engineering. I build

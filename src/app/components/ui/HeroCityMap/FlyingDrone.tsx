@@ -82,10 +82,24 @@ export const FlyingDrone = ({ interactive = true, scale = 1.2 }: FlyingDroneProp
     if (!pivotRef.current) return;
     const t = clock.elapsedTime * 0.15;
 
-    // Patrol path (figure-8)
-    const patrolX = Math.sin(t) * 3.5;
-    const patrolY = Math.sin(t * 2) * 1.5;
-    const patrolZ = 4.0 + Math.sin(t * 0.7) * 0.5;
+    // Compute visible bounds at the drone's altitude (z = 4)
+    // For perspective camera: visible height = 2 * distance * tan(fov/2)
+    const droneZ = 4.0;
+    const persp = camera as THREE.PerspectiveCamera;
+    const distance = Math.abs(camera.position.z - droneZ);
+    const vFov = (persp.fov * Math.PI) / 180;
+    const visibleH = 2 * distance * Math.tan(vFov / 2);
+    const visibleW = visibleH * (size.width / size.height);
+
+    // Padding so drone doesn't touch edges
+    const padding = 0.6;
+    const ampX = Math.max(1.0, visibleW / 2 - padding);
+    const ampY = Math.max(0.5, visibleH / 2 - padding);
+
+    // Patrol path (figure-8) — sized to visible area at drone altitude
+    const patrolX = Math.sin(t) * ampX;
+    const patrolY = Math.sin(t * 2) * (ampY * 0.6);
+    const patrolZ = droneZ + Math.sin(t * 0.7) * 0.3;
     const patrolPos = new THREE.Vector3(patrolX, patrolY, patrolZ);
 
     // Check proximity to mouse (interactive only)

@@ -91,7 +91,7 @@ const PointCloudBackground = ({ cityName }: { cityName: string }) => {
       <directionalLight position={[0, -5, 3]} intensity={0.5} color="#ffffff" />
 
       <PointCloudScene cityData={data} />
-      <FlyingDrone interactive={isDesktop} scale={isDesktop ? 1.2 : 0.75} />
+      <FlyingDrone interactive={isDesktop} scale={isDesktop ? 1.2 : 0.5} />
     </Canvas>
   );
 };
