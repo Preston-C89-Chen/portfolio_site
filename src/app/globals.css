@@ -2,88 +2,151 @@
 @tailwind components;
 @tailwind utilities;
 
-/* hide scroll bar */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-/* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+@keyframes slow-zoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15); }
 }
 
-body {
+.animate-slow-zoom {
+  animation: slow-zoom 6s ease-in-out forwards;
+}
+
+/* Minimalist Typographic Base Styles */
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-radius: 0;
+  }
+
+  body {
     scroll-behavior: smooth;
     overflow-x: hidden;
     max-width: 100vw;
-    color: #fff;
-    background: rgba(14, 17, 21, 1);
-}
-
-.corner {
-    left : calc(100% - 60vw);
-    top : calc(100% - 50vh);
-}
-
-.textTransparent {
-    -webkit-text-fill-color: transparent;
-}
-.clip-path-background {
-    clip-path: url('#'); /* Reference the ID from the SVG */
-    /* Optional background styling (e.g., color, gradient) */
+    color: #000000;
+    background: #FFFFFF;
+    font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'Arial', sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-.banner-job-radius {
-    border-radius: calc(100% - 1px);
-}
-.banner-job {
-    width: calc(100% - 2px);
-    height: calc(100% - 2px);
-    
-}
-
-.header-bg {
-    clip-path: url(#my-clip-path);
-}
-
-.ul-max-h {
-    max-height: calc(100% - 40px);
-    overflow-y: auto;
-    /* hide scrollbar */
-    scrollbar-width: none;
-}
-
-.banner-small {
-    clip-path: url(#my-clip-small);
-}
-
-.icon-hover:hover {
-    filter: drop-shadow(0 0 0.75rem #fff);
-}
-
-.input-size {
-    font-size: clamp(0.8rem, 1.5vw, 1.5rem);
-}
-
-.tool-size {
-    font-size: clamp(0.8rem, 1.5vw, 1.5rem);
-}
-
-.get-in-size {
-    font-size: clamp(0.1rem, 5vw, 1.5rem);
-}
-
-.banner-size {
-    font-size: clamp(1.5rem, 9vw, 4.5rem);
-}
-
-.p5Canvas {
-    position: fixed; /* Or 'fixed' */
-    top: 0;
-    left: 0;
-    z-index: -1;
-    opacity: 0.6;
-    width: 100%;
-    height: 100%; /* Higher than other elements */
-    pointer-events: none; /* Prevents the canvas from blocking clicks on other elements, if needed */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 0;
   }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+/* Swiss Design Utilities */
+@layer utilities {
+  .swiss-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .swiss-grid {
+      grid-template-columns: repeat(4, 1fr);
+      padding: 0 1.5rem;
+    }
+  }
+
+  .header-caps {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+  }
+
+  .accent-square {
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #FF0000;
+    display: inline-block;
+  }
+
+  .accent-circle-yellow {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #FFD700;
+    display: inline-block;
+  }
+
+  .accent-circle-orange {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #FF6B35;
+    display: inline-block;
+  }
+
+  .divider-swiss {
+    height: 1px;
+    background: #000000;
+    margin: 3rem 0;
+  }
+
+  .divider-swiss-red {
+    height: 2px;
+    background: #FF0000;
+    margin: 3rem 0;
+  }
+
+  /* Translate Center Utilities - from Devouring Details */
+  .translate-center-x {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .translate-center-y {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .translate-center {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Flex center utility */
+  .flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Main content padding for scroll tracker on desktop */
+  .main-content-wrapper {
+    padding-left: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .main-content-wrapper {
+      padding-left: 400px; /* Space for scroll tracker + horizontal line */
+    }
+  }
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

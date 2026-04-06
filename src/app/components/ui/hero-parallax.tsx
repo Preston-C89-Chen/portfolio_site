@@ -161,13 +161,15 @@ export const Header = () => {
   return (
     <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0">
       <h1 className="text-2xl md:text-7xl font-bold dark:text-white">
-        Preston Chen  / <br />  Software Engineer
+        Preston Chen
       </h1>
+      <h2 className="text-xl md:text-5xl font-semibold mt-4 bg-gradient-to-r from-blueOne via-blueTwo to-blueThree bg-clip-text text-transparent">
+        Frontend Design Engineer
+      </h2>
       <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200">
-        Coding with flair and crafting systems where numbers and dreams pair.
-        His language of choice speaks in elegant streams, Python's clarity, and Javascript's specailty fueling product dreams.
-        Beyond the syntax, my passion probes AI's creativity.
-        In a world of data, with visions firmly set, we build the future with everyline, a sure bet.
+        Bridging design and development with 8+ years of experience.
+        I combine a BA in Graphic Design with deep expertise in React, TypeScript, and modern animation libraries
+        to build beautiful, performant design systems and pixel-perfect user interfaces.
       </p>
     </div>
   );

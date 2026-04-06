@@ -1,22 +1,23 @@
 'use client';
-import Footer from './components/Footer'
-import { useEffect, useState } from 'react';
-import Sanskrit from './components/ui/p5_sanskrit';
-import { HeroParallax } from './components/ui/hero-parallax';
+import { useState } from 'react';
+import { HeroCityMap } from './components/ui/HeroCityMap/HeroCityMap';
+import { SkillsTicker } from './components/ui/SkillsTicker';
+import { WorkAccordion } from './components/ui/WorkAccordion';
+import { Footer } from './components/ui/Footer';
+import { CurrentlyBuilding } from './components/ui/CurrentlyBuilding';
+import { GridStaggerReveal } from './components/ui/GridStaggerReveal';
 
 export default function Home() {
-  useEffect(() => {
-  }, []);
+  const [gridRevealComplete, setGridRevealComplete] = useState(false);
+
   return (
-    <>
-   
-      <main className='container max-w-[1400px] min-w-[350px] w-full mx-auto max-[1400px]:overflow-hidden'>
-          <>
-            <Sanskrit />
-            <HeroParallax />
-          </>
-      </main>
+    <main className="min-h-screen bg-white text-black">
+      <GridStaggerReveal onComplete={() => setGridRevealComplete(true)} />
+      <HeroCityMap revealReady={gridRevealComplete} />
+      <SkillsTicker />
+      <WorkAccordion />
+      <CurrentlyBuilding />
       <Footer />
-    </>
+    </main>
   )
 }
