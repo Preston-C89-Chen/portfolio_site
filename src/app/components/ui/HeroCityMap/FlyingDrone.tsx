@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { DroneModel } from './DroneModel';
+import { dronePosition } from './dronePosition';
 
 const PROXIMITY_THRESHOLD = 3.0;
 const TRACKING_LERP = 0.03;
@@ -128,6 +129,8 @@ export const FlyingDrone = ({ interactive = true, scale = 1.2 }: FlyingDroneProp
     cur.z += (targetZ - cur.z) * lerp;
 
     pivotRef.current.position.copy(cur);
+    // Publish to shared ref so point cloud can react
+    dronePosition.copy(cur);
 
     // Face direction of movement
     const vel = new THREE.Vector3(

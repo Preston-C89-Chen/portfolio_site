@@ -85,9 +85,9 @@ export const HeroCityMap = ({ revealReady = true }: HeroCityMapProps) => {
         <PointCloudBackground cityName={currentCity.name} />
       </div>
 
-      {/* Layer 2a: Figure-ground panel — mobile (top-right, small) */}
-      <div className="absolute top-[80px] right-4 w-[35%] h-[22%] z-[1] md:hidden">
-        <div className="relative h-full overflow-hidden rounded-sm opacity-40">
+      {/* Layer 2a: Figure-ground panel — mobile (top-right, square) */}
+      <div className="absolute top-[80px] right-4 w-[35%] aspect-square z-[1] md:hidden">
+        <div className="relative h-full w-full overflow-hidden rounded-sm opacity-40">
           <div
             key={`mobile-${currentCity.name}`}
             className="absolute inset-0 animate-slow-zoom"
@@ -97,9 +97,9 @@ export const HeroCityMap = ({ revealReady = true }: HeroCityMapProps) => {
         </div>
       </div>
 
-      {/* Layer 2b: Figure-ground panel — desktop (bottom-right, larger) */}
-      <div className="absolute bottom-0 right-0 w-1/4 h-[45%] z-[1] hidden md:block pr-8 pb-8 md:pr-16 md:pb-8 lg:pr-24">
-        <div className="relative h-full overflow-hidden rounded-sm opacity-40">
+      {/* Layer 2b: Figure-ground panel — desktop (bottom-right, square) */}
+      <div className="absolute bottom-8 right-8 md:right-16 lg:right-24 w-[22%] max-w-[360px] aspect-square z-[1] hidden md:block">
+        <div className="relative h-full w-full overflow-hidden rounded-sm opacity-40">
           <div
             key={currentCity.name}
             className="absolute inset-0 animate-slow-zoom"

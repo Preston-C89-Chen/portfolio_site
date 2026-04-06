@@ -3,6 +3,7 @@
 import { useMemo, useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { dronePosition } from './dronePosition';
 
 type CityData = {
   name: string;
@@ -117,13 +118,13 @@ function generatePointData(polygons: number[][][]): PointData {
   };
 }
 
-// DEM-style color ramp: very dark range
+// DEM-style color ramp: full spectrum from near-black to near-white
 function heightToColor(h: number, maxH: number): [number, number, number] {
   const t = Math.min(h / maxH, 1);
-  // Near-black → dark charcoal
-  const r = 0.02 + t * 0.2;
-  const g = 0.02 + t * 0.18;
-  const b = 0.02 + t * 0.16;
+  // Near-black → mid-gray → light silver
+  const r = 0.02 + t * 0.88;
+  const g = 0.02 + t * 0.86;
+  const b = 0.02 + t * 0.82;
   return [r, g, b];
 }
 
@@ -133,6 +134,8 @@ export const PointCloudScene: React.FC<PointCloudSceneProps> = ({ cityData }) =>
   const dataRef = useRef<PointData | null>(null);
   const posAttrRef = useRef<THREE.Float32BufferAttribute | null>(null);
   const colAttrRef = useRef<THREE.Float32BufferAttribute | null>(null);
+  // Per-point accumulated time so speed changes don't cause position jumps
+  const accTimeRef = useRef<Float32Array | null>(null);
 
   const pointData = useMemo(() => {
     if (!cityData) return null;
@@ -153,19 +156,27 @@ export const PointCloudScene: React.FC<PointCloudSceneProps> = ({ cityData }) =>
     geoRef.current.setAttribute('color', colAttr);
     posAttrRef.current = posAttr;
     colAttrRef.current = colAttr;
+    accTimeRef.current = new Float32Array(pointData.count);
 
     geoRef.current.computeBoundingSphere();
   }, [pointData]);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
     const d = dataRef.current;
     const posAttr = posAttrRef.current;
     const colAttr = colAttrRef.current;
-    if (!d || !posAttr || !colAttr) return;
+    const acc = accTimeRef.current;
+    if (!d || !posAttr || !colAttr || !acc) return;
 
     const time = clock.elapsedTime;
     const pos = posAttr.array as Float32Array;
     const col = colAttr.array as Float32Array;
+
+    // Drone position in scene space
+    const dx = dronePosition.x;
+    const dy = dronePosition.y;
+    const INFLUENCE_RADIUS = 4.0;
+    const MAX_BOOST = 4.0; // near the drone, animate 4x faster
 
     for (let i = 0; i < d.count; i++) {
       const bx = d.basePositions[i * 2];
@@ -174,9 +185,23 @@ export const PointCloudScene: React.FC<PointCloudSceneProps> = ({ cityData }) =>
       const phase = d.phases[i];
       const speed = d.speeds[i];
 
+      // Distance from point to drone (xy plane)
+      const ddx = bx - dx;
+      const ddy = by - dy;
+      const dist = Math.sqrt(ddx * ddx + ddy * ddy);
+      // Proximity factor: 1 at drone, 0 at radius edge
+      const proximity = Math.max(0, 1 - dist / INFLUENCE_RADIUS);
+      // Smooth falloff
+      const smooth = proximity * proximity * (3 - 2 * proximity);
+      const boost = 1 + smooth * (MAX_BOOST - 1);
+
+      // Accumulate per-point time — smooth even when boost changes
+      acc[i] += delta * speed * boost;
+
       // Particles rise upward from building footprint, recycle back down
       const maxRise = 1.5 + baseH;
-      const rise = ((time * speed + phase) % maxRise);
+      const localTime = acc[i] + phase;
+      const rise = localTime - Math.floor(localTime / maxRise) * maxRise;
       const z = rise;
 
       // Drift outward as particles climb
