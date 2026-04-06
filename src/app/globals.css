@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes slow-zoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15); }
+}
+
+.animate-slow-zoom {
+  animation: slow-zoom 6s ease-in-out forwards;
+}
+
 /* Minimalist Typographic Base Styles */
 @layer base {
   * {

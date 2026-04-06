@@ -10,7 +10,7 @@ const P5_Sanskrit = (): JSX.Element => {
   let distanceAngle = 360;
   let baseRadius: any;
   let amplitude = 80; // Amplitude of the oscillation of the radius
-  let period = 200; // How many frames for one cycle of the first set
+  let period = 200; // How many frames for one cycle of the first setow l
   let periodSecond = 120; // Different period for the second set
   let sanskritFont: any;
 

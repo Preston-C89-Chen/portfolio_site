@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#ffffff"/>
+
+  <!-- SF-style figure-ground: grid blocks with Market Street diagonal cutting through -->
+
+  <!-- Upper-left quadrant (North Beach / Telegraph Hill area) -->
+  <rect x="2" y="2" width="4" height="4" fill="#000000"/>
+  <rect x="7" y="2" width="5" height="3" fill="#000000"/>
+  <rect x="13" y="2" width="3" height="5" fill="#000000"/>
+  <rect x="2" y="7" width="3" height="4" fill="#000000"/>
+  <rect x="6" y="6" width="4" height="4" fill="#000000"/>
+  <rect x="11" y="8" width="3" height="3" fill="#000000"/>
+
+  <!-- Upper-right quadrant (Downtown / FiDi grid) -->
+  <rect x="18" y="2" width="3" height="4" fill="#000000"/>
+  <rect x="22" y="2" width="4" height="3" fill="#000000"/>
+  <rect x="27" y="2" width="3" height="5" fill="#000000"/>
+  <rect x="19" y="7" width="4" height="3" fill="#000000"/>
+  <rect x="24" y="6" width="3" height="4" fill="#000000"/>
+  <rect x="28" y="8" width="2" height="4" fill="#000000"/>
+
+  <!-- Middle diagonal band (Market Street area — sparse) -->
+  <rect x="2" y="13" width="3" height="2" fill="#000000"/>
+  <rect x="15" y="12" width="2" height="3" fill="#000000"/>
+  <rect x="26" y="13" width="4" height="2" fill="#000000"/>
+
+  <!-- Lower-left quadrant (Mission / SOMA — rotated grid feel) -->
+  <rect x="2" y="17" width="5" height="3" fill="#000000"/>
+  <rect x="8" y="16" width="3" height="4" fill="#000000"/>
+  <rect x="12" y="18" width="4" height="3" fill="#000000"/>
+  <rect x="3" y="21" width="4" height="3" fill="#000000"/>
+  <rect x="8" y="22" width="3" height="3" fill="#000000"/>
+  <rect x="13" y="22" width="3" height="4" fill="#000000"/>
+
+  <!-- Lower-right quadrant (Mission Bay) -->
+  <rect x="18" y="16" width="4" height="4" fill="#000000"/>
+  <rect x="23" y="17" width="3" height="3" fill="#000000"/>
+  <rect x="27" y="16" width="3" height="4" fill="#000000"/>
+  <rect x="18" y="22" width="3" height="4" fill="#000000"/>
+  <rect x="22" y="22" width="4" height="3" fill="#000000"/>
+  <rect x="27" y="22" width="3" height="4" fill="#000000"/>
+
+  <!-- Bottom edge -->
+  <rect x="4" y="27" width="3" height="3" fill="#000000"/>
+  <rect x="9" y="27" width="4" height="2" fill="#000000"/>
+  <rect x="16" y="27" width="3" height="3" fill="#000000"/>
+  <rect x="21" y="27" width="5" height="2" fill="#000000"/>
+</svg>
