@@ -141,6 +141,15 @@ export const HeroCityMap = ({ revealReady = true }: HeroCityMapProps) => {
             <span className="text-black/20 text-xs select-none">/</span>
             <button
               onClick={() => {
+                document.querySelector('[data-section="projects"]')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="font-mono text-[11px] uppercase tracking-[0.2em] text-black/70 transition-all duration-200 hover:text-black hover:tracking-[0.25em]"
+            >
+              Projects
+            </button>
+            <span className="text-black/20 text-xs select-none">/</span>
+            <button
+              onClick={() => {
                 document.querySelector('footer')?.scrollIntoView({ behavior: 'smooth' });
               }}
               className="font-mono text-[11px] uppercase tracking-[0.2em] text-black/70 transition-all duration-200 hover:text-black hover:tracking-[0.25em]"

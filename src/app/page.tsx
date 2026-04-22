@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { HeroCityMap } from './components/ui/HeroCityMap/HeroCityMap';
 import { SkillsTicker } from './components/ui/SkillsTicker';
 import { WorkAccordion } from './components/ui/WorkAccordion';
+import { Projects } from './components/ui/Projects';
 import { Footer } from './components/ui/Footer';
 import { CurrentlyBuilding } from './components/ui/CurrentlyBuilding';
 import { GridStaggerReveal } from './components/ui/GridStaggerReveal';
@@ -16,6 +17,7 @@ export default function Home() {
       <HeroCityMap revealReady={gridRevealComplete} />
       <SkillsTicker />
       <WorkAccordion />
+      <Projects />
       <CurrentlyBuilding />
       <Footer />
     </main>
