@@ -212,13 +212,31 @@ export const PointCloudScene: React.FC<PointCloudSceneProps> = ({ cityData }) =>
       pos[i * 3 + 1] = by + sway;
       pos[i * 3 + 2] = z;
 
-      // Dark at base, fades lighter as particles rise
+      // Height-encoded hue ramp: deep navy → portfolio blue → teal → warm amber
+      // Mirrors a LiDAR elevation colormap. Cohesive with loading screen palette.
       const t = rise / maxRise;
-      const base = 0.03;
-      const brightness = base + t * 0.35;
-      col[i * 3] = brightness;
-      col[i * 3 + 1] = brightness;
-      col[i * 3 + 2] = brightness;
+      let r: number, g: number, b: number;
+      if (t < 0.333) {
+        const f = t / 0.333;
+        r = 0.03 + (0.18 - 0.03) * f;
+        g = 0.09 + (0.42 - 0.09) * f;
+        b = 0.16 + (0.68 - 0.16) * f;
+      } else if (t < 0.666) {
+        const f = (t - 0.333) / 0.333;
+        r = 0.18 + (0.42 - 0.18) * f;
+        g = 0.42 + (0.72 - 0.42) * f;
+        b = 0.68 + (0.82 - 0.68) * f;
+      } else {
+        const f = (t - 0.666) / 0.334;
+        r = 0.42 + (0.85 - 0.42) * f;
+        g = 0.72 + (0.65 - 0.72) * f;
+        b = 0.82 + (0.30 - 0.82) * f;
+      }
+      // Drone proximity warms the ramp — "scan aura" around the flying drone
+      const warm = smooth * 0.35;
+      col[i * 3]     = r + warm * (0.95 - r);
+      col[i * 3 + 1] = g + warm * (0.55 - g);
+      col[i * 3 + 2] = b - warm * b * 0.4;
     }
 
     posAttr.needsUpdate = true;

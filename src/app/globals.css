@@ -11,6 +11,20 @@
   animation: slow-zoom 6s ease-in-out forwards;
 }
 
+/* Rotating wireframe cubes — V-JEPA-inspired loading screen */
+@keyframes cube-spin-a {
+  0%   { transform: rotateX(-20deg) rotateY(0deg)   rotateZ(0deg); }
+  100% { transform: rotateX(-20deg) rotateY(360deg) rotateZ(0deg); }
+}
+@keyframes cube-spin-b {
+  0%   { transform: rotateX(15deg)  rotateY(45deg)  rotateZ(0deg); }
+  100% { transform: rotateX(375deg) rotateY(405deg) rotateZ(0deg); }
+}
+@keyframes cube-spin-c {
+  0%   { transform: rotateX(0deg)   rotateY(0deg)   rotateZ(0deg); }
+  100% { transform: rotateX(-360deg) rotateY(-360deg) rotateZ(360deg); }
+}
+
 /* Minimalist Typographic Base Styles */
 @layer base {
   * {
