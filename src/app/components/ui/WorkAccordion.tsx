@@ -43,7 +43,7 @@ const workExperiences: WorkExperience[] = [
   },
   {
     id: 'contract',
-    company: 'CONTRACT ENGINEER',
+    company: 'WEB DEVELOPER',
     role: 'MULTIPLE COMPANIES',
     dateRange: '(2015 — 2019)',
     description:
