@@ -15,7 +15,7 @@ export const Footer = () => {
           <div className="flex-1 px-12">
             <div className="text-sm leading-relaxed">
               <div className="font-medium">Preston Chen</div>
-              <div className="text-black/70">Data Quality Engineer</div>
+              <div className="text-black/70">Field Engineering · Integrations · Test</div>
               <div className="text-black/70">South San Francisco, CA</div>
             </div>
           </div>
@@ -74,7 +74,7 @@ export const Footer = () => {
             {/* Name & Title */}
             <div className="text-sm leading-relaxed">
               <div className="font-medium">Preston Chen</div>
-              <div className="text-black/70">Data Quality Engineer</div>
+              <div className="text-black/70">Field Engineering · Integrations · Test</div>
               <div className="text-black/70">South San Francisco, CA</div>
             </div>
 

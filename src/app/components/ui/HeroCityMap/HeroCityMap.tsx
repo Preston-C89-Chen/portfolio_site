@@ -167,7 +167,7 @@ export const HeroCityMap = ({ revealReady = true }: HeroCityMapProps) => {
             animate={shouldReveal ? "visible" : "hidden"}
             className="font-gilroy text-[clamp(1.25rem,3vw,2rem)] font-bold uppercase leading-[1] tracking-[0.12em] bg-white/80 backdrop-blur-sm px-4 py-2 w-fit"
           >
-            Data Quality Engineer
+            Field Engineering & Integrations
           </motion.h2>
 
           <motion.div
@@ -188,10 +188,10 @@ export const HeroCityMap = ({ revealReady = true }: HeroCityMapProps) => {
           className="border-t border-black/10 pt-8 pb-24 md:pb-8 md:w-1/2"
         >
           <p className="font-mono max-w-lg text-xs text-black/50 bg-white/80 backdrop-blur-sm px-4 py-3 w-fit leading-relaxed">
-            Data quality engineer with 5+ years in software engineering. I build
-            tooling, validate data pipelines, and care about what happens
-            downstream when labels are wrong. Building toward simulation
-            engineering for robotics.
+            I connect software to real-world systems. My experience spans production
+            robot operations, commercial drone work, API integrations, and data tooling, backed by five
+            years of software engineering. I am focused on forward deployed,
+            integrations, and test engineering roles in robotics and AI.
           </p>
         </motion.div>
       </motion.div>

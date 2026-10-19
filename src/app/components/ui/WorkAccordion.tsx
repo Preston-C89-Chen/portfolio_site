@@ -16,14 +16,34 @@ interface WorkExperience {
   dateRange: string;
   description: string;
   images: GalleryImage[];
+  website?: string;
 }
 
 const workExperiences: WorkExperience[] = [
   {
+    id: 'fieldoptic',
+    company: 'FIELDOPTIC',
+    role: 'COMMERCIAL DRONE PILOT',
+    dateRange: '(ONGOING)',
+    description:
+      'Commercial drone pilot work through FIELDOPTIC, focused on commercial real estate and geographic monitoring. Inspect land parcels, construction sites, and roofs; create orthomosaics; and document site progress and changes over time, including along coastlines.',
+    website: 'https://fieldoptic.studio',
+    images: [],
+  },
+  {
+    id: 'fs-studio',
+    company: 'FS STUDIO',
+    role: 'ROBOT TELEOPERATOR & DATA OPERATIONS ANALYST',
+    dateRange: '(APR 2026 — PRESENT)',
+    description:
+      "On Meta’s robotics program, operate robots under live production conditions and diagnose anomalous behavior, escalating hardware and software issues to the appropriate teams. Investigate recurring fleet failures with SQL and Python using episode and per-robot telemetry. Translate findings into staffing and maintenance recommendations, and annotate episodes and flag edge cases that affect model quality.",
+    images: [],
+  },
+  {
     id: 'aclima',
     company: 'ACLIMA, INC.',
     role: 'AIR QUALITY DATA COLLECTOR',
-    dateRange: '(2025 — 2026)',
+    dateRange: '(AUG 2025 — MAR 2026)',
     description:
       'Monitored air quality sensor hardware across data collection routes, ensuring accurate readings and data integrity. Worked independently to uphold quality standards, identifying and flagging anomalous readings for review. Maintained detailed field logs documenting equipment status, route conditions, and collection parameters.',
     images: [],
@@ -238,6 +258,11 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
                   <div className="w-2/5">
                     <p className="text-base leading-relaxed max-w-lg">
                       {experience.description}
+                    {experience.website && (
+                      <a href={experience.website} target="_blank" rel="noopener noreferrer" className="mt-4 block w-fit border-b border-white/50 pb-1 font-mono text-xs uppercase tracking-wider hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
+                        Visit FIELDOPTIC ↗
+                      </a>
+                    )}
                     </p>
                   </div>
 
@@ -306,6 +331,11 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
               <div className="pb-6 pt-6 border-t border-white/20">
                 <p className="text-sm leading-relaxed mb-4">
                   {experience.description}
+                    {experience.website && (
+                      <a href={experience.website} target="_blank" rel="noopener noreferrer" className="mt-4 block w-fit border-b border-white/50 pb-1 font-mono text-xs uppercase tracking-wider hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
+                        Visit FIELDOPTIC ↗
+                      </a>
+                    )}
                 </p>
                 {experience.images.length > 0 && (
                   <ImageGallery images={experience.images} />

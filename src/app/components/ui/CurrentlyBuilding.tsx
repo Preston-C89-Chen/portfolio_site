@@ -8,8 +8,8 @@ const items = [
     detail: 'University of Colorado Boulder — Computer Vision, Deep Learning, Modern AI Models for Vision',
   },
   {
-    label: 'SIMULATION ENGINEERING',
-    detail: 'Isaac Sim, ROS 2, OpenUSD — working toward sim-to-real data pipelines for robotics',
+    label: 'ROBOTICS & SIMULATION',
+    detail: 'Exploring Isaac Sim, MuJoCo, ROS 2, and OpenUSD alongside production robot operations. Developing skills in simulation and validation for physical AI systems.',
   },
 ];
 

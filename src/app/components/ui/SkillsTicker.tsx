@@ -3,7 +3,11 @@ import { motion } from "framer-motion";
 
 const skills = [
   "PYTHON",
-  "DATA QUALITY",
+  "FIELD DIAGNOSTICS",
+  "COMMERCIAL UAS",
+  "ROOT-CAUSE ANALYSIS",
+  "TEST PLAN DESIGN",
+  "REGRESSION VALIDATION",
   "TYPESCRIPT",
   "SQL",
   "DOCKER",
@@ -15,7 +19,9 @@ const skills = [
   "NODE.JS",
   "COMPUTER VISION",
   "DEEP LEARNING",
-  "ANNOTATION TOOLING",
+  "LINUX",
+  "C++",
+  "TELEMETRY ANALYSIS",
   "ISAAC SIM",
   "ROS 2",
   "OPENUSD",

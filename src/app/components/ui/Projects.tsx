@@ -1,6 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import fleetImage from '@public/projects/robotics-telemetry/fleet.jpg';
+import epochImage from '@public/projects/epoch/mission-map.jpg';
 
 /* ─── Mini visualizations ─── */
 
@@ -84,83 +87,11 @@ const StatstacksPreview = () => {
   );
 };
 
-// Robotics telemetry panel — sparkline + topic list
-const TelemetryPreview = () => {
-  const spark = [20, 28, 24, 36, 30, 42, 38, 50, 44, 52, 48, 60, 54, 58, 52, 62, 56]
-    .map((v, i) => `${i * 16},${70 - v * 0.6}`)
-    .join(' ');
-
-  const topics = ['/cmd_vel', '/odom', '/imu/data', '/tf'];
-
-  return (
-    <div className="w-full h-full grid grid-cols-[2fr_1fr] gap-2 font-mono text-[9px] tracking-wider">
-      {/* Sparkline panel */}
-      <div className="relative border border-current/20 p-2 flex flex-col">
-        <div className="flex justify-between text-current/50 mb-1">
-          <span>FPS 62</span>
-          <span>LAT 14ms</span>
-        </div>
-        <svg
-          viewBox="0 0 260 80"
-          className="w-full flex-1"
-          preserveAspectRatio="none"
-          aria-hidden
-        >
-          {[20, 40, 60].map((y) => (
-            <line
-              key={y}
-              x1="0"
-              y1={y}
-              x2="260"
-              y2={y}
-              stroke="currentColor"
-              strokeOpacity="0.08"
-              strokeWidth="0.5"
-            />
-          ))}
-          <motion.polyline
-            points={spark}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.25"
-            initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-          />
-        </svg>
-      </div>
-
-      {/* Topic list */}
-      <div className="border border-current/20 p-2 flex flex-col justify-between">
-        <div className="text-current/50 mb-1">TOPICS</div>
-        <div className="flex flex-col gap-1 flex-1">
-          {topics.map((t, i) => (
-            <div key={t} className="flex items-center gap-1.5">
-              <motion.span
-                className="w-1 h-1 rounded-full bg-current"
-                animate={{ opacity: [0.3, 1, 0.3] }}
-                transition={{
-                  duration: 1.2,
-                  repeat: Infinity,
-                  delay: i * 0.25,
-                  ease: 'easeInOut',
-                }}
-              />
-              <span className="text-current/70 truncate">{t}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
 /* ─── Project data ─── */
 
 interface Project {
   index: string;
-  status: 'LIVE' | 'IN PROGRESS';
+  status: 'LIVE' | 'IN PROGRESS' | 'PROTOTYPE';
   title: string;
   tagline: string;
   description: string;
@@ -174,6 +105,29 @@ interface Project {
 const projects: Project[] = [
   {
     index: '01',
+    status: 'IN PROGRESS',
+    title: 'UAS FLIGHT TESTING',
+    tagline: 'Requirements, instrumented runs, and evidence.',
+    description:
+      'Design and run structured flight test cards on personal UAS hardware with explicit pass/fail criteria. Compare post-flight telemetry with predictions across multiple airspeeds. Validated camera intrinsics against real EXIF data and identified a gap between published specifications and observed data.',
+    stack: ['FLIGHT TEST CARDS', 'TELEMETRY', 'EXIF VALIDATION'],
+    preview: <div className="flex h-full flex-col justify-center gap-3 font-mono text-xs"><span className="text-black/40">TEST WORKFLOW</span><span>01 / Define pass & fail criteria</span><span>02 / Fly & capture telemetry</span><span>03 / Compare results to predictions</span></div>,
+  },
+  {
+    index: '02',
+    status: 'IN PROGRESS',
+    title: 'EPOCH MISSION PLANNER',
+    tagline: 'Turn a survey goal into a repeatable flight plan.',
+    description:
+      'A map-based drone planner that works backward from what a survey needs to measure. Inspect the route, understand the capture settings, and keep earlier plans ready for the next visit.',
+    stack: ['PYTHON', 'TYPESCRIPT', 'MAPLIBRE', 'DJI WPML / KMZ'],
+    href: '/projects/epoch-mission-planner',
+    hrefLabel: 'READ CASE STUDY',
+    displayHref: 'Local-first · In development',
+    preview: <Image src={epochImage} alt="Epoch mission planner displaying a proposed coastal survey route and flight estimates" className="h-full w-full object-contain" sizes="(max-width: 768px) 90vw, 560px" />,
+  },
+  {
+    index: '03',
     status: 'LIVE',
     title: 'STATSTACKS',
     tagline: 'Options, futures & equities analysis.',
@@ -186,14 +140,17 @@ const projects: Project[] = [
     preview: <StatstacksPreview />,
   },
   {
-    index: '02',
-    status: 'IN PROGRESS',
-    title: 'TELEMETRY DASHBOARD',
-    tagline: 'Live operator view for robotic systems.',
+    index: '04',
+    status: 'PROTOTYPE',
+    title: 'ROBOTICS TELEMETRY DASHBOARD',
+    tagline: 'Fleet monitoring. Robot inspection. Session QA.',
     description:
-      'Real-time telemetry panel for robotic agents — topic activity, control-loop latency, and sensor health. Built toward sim-to-real workflows with ROS 2.',
-    stack: ['ROS 2', 'REACT', 'WEBSOCKETS', 'D3'],
-    preview: <TelemetryPreview />,
+      'A three-workspace operator console connecting a geospatial fleet view, a Franka workcell, and session investigation. Built with synthetic scenarios, telemetry freshness checks, and regression coverage.',
+    stack: ['REACT', 'TYPESCRIPT', 'THREE.JS', 'MAPLIBRE', 'WEBSOCKETS'],
+    href: '/projects/robotics-telemetry-console',
+    hrefLabel: 'READ CASE STUDY',
+    displayHref: 'Synthetic data · Desktop prototype',
+    preview: <Image src={fleetImage} alt="Robotics dashboard showing simulated robotaxis on a Mountain View map with fleet health and topic panels" className="h-full w-full object-contain" sizes="(max-width: 768px) 90vw, 560px" />,
   },
 ];
 
@@ -218,8 +175,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         {...(project.href
           ? {
               href: project.href,
-              target: '_blank',
-              rel: 'noopener noreferrer',
+              ...(project.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {}),
             }
           : {})}
         className={`group block h-full border border-black/15 p-6 md:p-8 transition-colors duration-300 ${
@@ -272,7 +228,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         </div>
 
         {/* Link row */}
-        <div className="pt-6 border-t border-black/10 flex items-center justify-between">
+        <div className="pt-6 border-t border-black/10 flex flex-wrap gap-3 items-center justify-between">
           {project.href ? (
             <>
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-black transition-all duration-200 group-hover:tracking-[0.25em]">
@@ -284,7 +240,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
             </>
           ) : (
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-black/40">
-              Coming soon
+              Work in progress
             </span>
           )}
         </div>
@@ -298,6 +254,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 export const Projects = () => {
   return (
     <section
+      id="projects"
       data-section="projects"
       className="w-full bg-white text-black py-24 md:py-32 border-t border-black/10"
     >
