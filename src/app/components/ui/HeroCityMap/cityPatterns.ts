@@ -21,6 +21,24 @@ export type CityConfig = {
 
 export const CITIES: CityConfig[] = [
   {
+    name: "San Francisco",
+    coordinates: "37.7749°N 122.4194°W",
+    patternType: "mixed",
+    shaderParams: {
+      blockSize: 0.05,
+      streetWidth: 0.30,
+      noiseFreq: 2.5,
+      noiseAmp: 0.7,
+      rotation: 0.0,
+      aspectRatio: 1.2,
+      radialSpokes: 0.0,
+      radialRings: 0.0,
+      mixBlend: 0.55,
+      landmarkAngle: 0.68,
+      landmarkWidth: 0.012,
+    },
+  },
+  {
     name: "Portland",
     coordinates: "45.5152°N 122.6784°W",
     patternType: "grid",
@@ -180,24 +198,6 @@ export const CITIES: CityConfig[] = [
       mixBlend: 0.0,
       landmarkAngle: 0.0,
       landmarkWidth: 0.0,
-    },
-  },
-  {
-    name: "San Francisco",
-    coordinates: "37.7749°N 122.4194°W",
-    patternType: "mixed",
-    shaderParams: {
-      blockSize: 0.05,
-      streetWidth: 0.30,
-      noiseFreq: 2.5,
-      noiseAmp: 0.7,
-      rotation: 0.0,
-      aspectRatio: 1.2,
-      radialSpokes: 0.0,
-      radialRings: 0.0,
-      mixBlend: 0.55,
-      landmarkAngle: 0.68,
-      landmarkWidth: 0.012,
     },
   },
   {
