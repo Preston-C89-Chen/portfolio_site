@@ -238,5 +238,5 @@ export const CITIES: CityConfig[] = [
   },
 ];
 
-export const CYCLE_DURATION = 30.0;
+export const CYCLE_DURATION = 6.0;
 export const TRANSITION_DURATION = 1.0;
