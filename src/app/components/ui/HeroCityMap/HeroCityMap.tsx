@@ -82,8 +82,8 @@ export const HeroCityMap = ({ revealReady = true }: HeroCityMapProps) => {
       className="relative min-h-screen overflow-hidden bg-white text-black"
     >
       {/* Layer 1: Point cloud — full bleed background */}
-      <div className="absolute inset-0 z-0 opacity-30">
-        <PointCloudBackground cityName={currentCity.name} />
+      <div className="absolute inset-0 z-0 opacity-95" style={{ maskImage: "linear-gradient(90deg, rgba(0,0,0,0.4), #000 48%)" }}>
+        <PointCloudBackground cityName={currentCity.name} reducedMotion={!!prefersReducedMotion} />
       </div>
 
       {/* Layer 2a: Figure-ground panel — mobile (top-right, square, below nav) */}
@@ -92,7 +92,7 @@ export const HeroCityMap = ({ revealReady = true }: HeroCityMapProps) => {
           <div className="absolute inset-0 opacity-40">
             <div
               key={`mobile-${currentCity.name}`}
-              className="absolute inset-0 animate-slow-zoom"
+              className="absolute inset-0"
             >
               <FigureGroundPanel cityName={currentCity.name} />
             </div>
@@ -107,7 +107,7 @@ export const HeroCityMap = ({ revealReady = true }: HeroCityMapProps) => {
           <div className="absolute inset-0 opacity-40">
             <div
               key={currentCity.name}
-              className="absolute inset-0 animate-slow-zoom"
+              className="absolute inset-0"
             >
               <FigureGroundPanel cityName={currentCity.name} />
             </div>

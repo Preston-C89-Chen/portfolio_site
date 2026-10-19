@@ -5,7 +5,7 @@ import { dronePosition } from './dronePosition';
 
 // Approximate scene-space bounds the drone patrols within
 const SCENE_HALF_WIDTH = 5.0;
-const SCENE_HALF_HEIGHT = 3.5;
+const SCENE_HALF_HEIGHT = 5.0;
 
 export const DroneMinimapIndicator = () => {
   const dotRef = useRef<HTMLDivElement>(null);

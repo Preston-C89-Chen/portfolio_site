@@ -4,12 +4,16 @@ import { motion } from 'framer-motion';
 
 const items = [
   {
-    label: 'MS DATA SCIENCE',
-    detail: 'University of Colorado Boulder — Computer Vision, Deep Learning, Modern AI Models for Vision',
+    label: 'PHYSICAL AI PROTOTYPING',
+    detail: 'Building and troubleshooting a LeRobot leader–follower setup, including 3D-printed parts and mechanical assembly. Investigating follower-arm servo failures and the torque demands behind them, connecting software behavior to the limits of the physical hardware.',
   },
   {
-    label: 'ROBOTICS & SIMULATION',
-    detail: 'Exploring Isaac Sim, MuJoCo, ROS 2, and OpenUSD alongside production robot operations. Developing skills in simulation and validation for physical AI systems.',
+    label: 'FPV DRONE BUILD',
+    detail: 'Building a 5-inch FPV drone, including soldering connections for the flight controller, electronic speed controllers (ESCs), and motors. Developing hands-on experience with assembly, wiring, and troubleshooting across the flight electronics.',
+  },
+  {
+    label: 'MS DATA SCIENCE',
+    detail: 'University of Colorado Boulder — Computer Vision, Deep Learning, Modern AI Models for Vision',
   },
 ];
 
@@ -20,7 +24,7 @@ export const CurrentlyBuilding = () => {
         {/* Section Header */}
         <div className="mb-16 md:mb-24">
           <h2 className="text-sm md:text-base uppercase tracking-wider font-medium mb-2">
-            Currently Building
+            Building & Learning
           </h2>
           <div className="h-[2px] bg-black w-24" />
         </div>

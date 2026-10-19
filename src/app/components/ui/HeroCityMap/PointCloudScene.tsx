@@ -1,266 +1,71 @@
 'use client';
 
-import { useMemo, useRef, useEffect } from 'react';
+import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { dronePosition } from './dronePosition';
+import { dronePosition, droneVelocity } from './dronePosition';
+import { buildLidarSurface } from './lidarGeometry';
+import { RooftopFlow } from './RooftopFlow';
 
-type CityData = {
-  name: string;
-  polygons: number[][][];
-};
+type Props = { cityData: { polygons: number[][][] } | null; reducedMotion?: boolean };
 
-type PointCloudSceneProps = {
-  cityData: CityData | null;
-};
-
-function seededRandom(seed: number) {
-  let s = seed;
-  return () => {
-    s = (s * 16807 + 0) % 2147483647;
-    return (s - 1) / 2147483646;
-  };
-}
-
-type PointData = {
-  basePositions: Float32Array; // x, y per point
-  heights: Float32Array;      // base height (building = elevated, street = 0)
-  phases: Float32Array;
-  speeds: Float32Array;
-  count: number;
-};
-
-function addPoint(
-  baseX: number[], baseY: number[], heights: number[],
-  phases: number[], speeds: number[], rand: () => number,
-  px: number, py: number, height: number,
-) {
-  baseX.push(px);
-  baseY.push(py);
-  heights.push(height);
-  phases.push(rand() * Math.PI * 2);
-  speeds.push(0.2 + rand() * 0.6);
-}
-
-function generatePointData(polygons: number[][][]): PointData {
-  const baseX: number[] = [];
-  const baseY: number[] = [];
-  const heights: number[] = [];
-  const phases: number[] = [];
-  const speeds: number[] = [];
-  const rand = seededRandom(42);
-  const edgeSpacing = 0.003;
-
-  for (const poly of polygons) {
-    if (poly.length < 2) continue;
-
-    // Consistent building height per polygon
-    const buildingHeight = 0.3 + rand() * 1.2;
-
-    // Edge points
-    for (let i = 0; i < poly.length - 1; i++) {
-      const x0 = poly[i][0], y0 = poly[i][1];
-      const x1 = poly[i + 1][0], y1 = poly[i + 1][1];
-      const dx = x1 - x0, dy = y1 - y0;
-      const len = Math.sqrt(dx * dx + dy * dy);
-      const steps = Math.max(1, Math.floor(len / edgeSpacing));
-
-      for (let s = 0; s <= steps; s++) {
-        const t = s / steps;
-        const px = (x0 + dx * t - 0.5) * 10 + (rand() - 0.5) * 0.01;
-        const py = -(y0 + dy * t - 0.5) * 7 + (rand() - 0.5) * 0.01;
-        addPoint(baseX, baseY, heights, phases, speeds, rand, px, py, buildingHeight);
-      }
-    }
-
-    // Fill interior
-    if (poly.length < 3) continue;
-    let minX = Infinity, maxX2 = -Infinity, minY = Infinity, maxY = -Infinity;
-    for (const pt of poly) {
-      if (pt[0] < minX) minX = pt[0];
-      if (pt[0] > maxX2) maxX2 = pt[0];
-      if (pt[1] < minY) minY = pt[1];
-      if (pt[1] > maxY) maxY = pt[1];
-    }
-    const fillSpacing = 0.005;
-    for (let fx = minX; fx <= maxX2; fx += fillSpacing) {
-      for (let fy = minY; fy <= maxY; fy += fillSpacing) {
-        let inside = false;
-        for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-          const xi = poly[i][0], yi = poly[i][1];
-          const xj = poly[j][0], yj = poly[j][1];
-          if ((yi > fy) !== (yj > fy) && fx < (xj - xi) * (fy - yi) / (yj - yi) + xi) {
-            inside = !inside;
-          }
-        }
-        if (inside) {
-          const px = (fx - 0.5) * 10 + (rand() - 0.5) * 0.015;
-          const py = -(fy - 0.5) * 7 + (rand() - 0.5) * 0.015;
-          addPoint(baseX, baseY, heights, phases, speeds, rand, px, py, buildingHeight);
-        }
-      }
-    }
-  }
-
-  const count = baseX.length;
-  const bp = new Float32Array(count * 2);
-  for (let i = 0; i < count; i++) {
-    bp[i * 2] = baseX[i];
-    bp[i * 2 + 1] = baseY[i];
-  }
-
-  return {
-    basePositions: bp,
-    heights: new Float32Array(heights),
-    phases: new Float32Array(phases),
-    speeds: new Float32Array(speeds),
-    count,
-  };
-}
-
-// DEM-style color ramp: full spectrum from near-black to near-white
-function heightToColor(h: number, maxH: number): [number, number, number] {
-  const t = Math.min(h / maxH, 1);
-  // Near-black → mid-gray → light silver
-  const r = 0.02 + t * 0.88;
-  const g = 0.02 + t * 0.86;
-  const b = 0.02 + t * 0.82;
-  return [r, g, b];
-}
-
-export const PointCloudScene: React.FC<PointCloudSceneProps> = ({ cityData }) => {
-  const pointsRef = useRef<THREE.Points>(null);
-  const geoRef = useRef<THREE.BufferGeometry>(null);
-  const dataRef = useRef<PointData | null>(null);
-  const posAttrRef = useRef<THREE.Float32BufferAttribute | null>(null);
-  const colAttrRef = useRef<THREE.Float32BufferAttribute | null>(null);
-  // Per-point accumulated time so speed changes don't cause position jumps
-  const accTimeRef = useRef<Float32Array | null>(null);
-
-  const pointData = useMemo(() => {
-    if (!cityData) return null;
-    return generatePointData(cityData.polygons);
-  }, [cityData]);
-
-  useEffect(() => {
-    if (!geoRef.current || !pointData) return;
-    dataRef.current = pointData;
-
-    const positions = new Float32Array(pointData.count * 3);
-    const colors = new Float32Array(pointData.count * 3);
-
-    const posAttr = new THREE.Float32BufferAttribute(positions, 3);
-    const colAttr = new THREE.Float32BufferAttribute(colors, 3);
-
-    geoRef.current.setAttribute('position', posAttr);
-    geoRef.current.setAttribute('color', colAttr);
-    posAttrRef.current = posAttr;
-    colAttrRef.current = colAttr;
-    accTimeRef.current = new Float32Array(pointData.count);
-
-    geoRef.current.computeBoundingSphere();
-  }, [pointData]);
-
-  useFrame(({ clock }, delta) => {
-    const d = dataRef.current;
-    const posAttr = posAttrRef.current;
-    const colAttr = colAttrRef.current;
-    const acc = accTimeRef.current;
-    if (!d || !posAttr || !colAttr || !acc) return;
-
-    const time = clock.elapsedTime;
-    const pos = posAttr.array as Float32Array;
-    const col = colAttr.array as Float32Array;
-
-    // Drone position in scene space
-    const dx = dronePosition.x;
-    const dy = dronePosition.y;
-    const INFLUENCE_RADIUS = 4.0;
-    const MAX_BOOST = 4.0; // near the drone, animate 4x faster
-
-    for (let i = 0; i < d.count; i++) {
-      const bx = d.basePositions[i * 2];
-      const by = d.basePositions[i * 2 + 1];
-      const baseH = d.heights[i];
-      const phase = d.phases[i];
-      const speed = d.speeds[i];
-
-      // Distance from point to drone (xy plane)
-      const ddx = bx - dx;
-      const ddy = by - dy;
-      const dist = Math.sqrt(ddx * ddx + ddy * ddy);
-      // Proximity factor: 1 at drone, 0 at radius edge
-      const proximity = Math.max(0, 1 - dist / INFLUENCE_RADIUS);
-      // Smooth falloff
-      const smooth = proximity * proximity * (3 - 2 * proximity);
-      const boost = 1 + smooth * (MAX_BOOST - 1);
-
-      // Accumulate per-point time — smooth even when boost changes
-      acc[i] += delta * speed * boost;
-
-      // Particles rise upward from building footprint, recycle back down
-      const maxRise = 1.5 + baseH;
-      const localTime = acc[i] + phase;
-      const rise = localTime - Math.floor(localTime / maxRise) * maxRise;
-      const z = rise;
-
-      // Drift outward as particles climb
-      const drift = Math.sin(time * 0.4 + phase) * rise * 0.03;
-      const sway = Math.cos(time * 0.3 + phase * 1.5) * rise * 0.02;
-
-      pos[i * 3] = bx + drift;
-      pos[i * 3 + 1] = by + sway;
-      pos[i * 3 + 2] = z;
-
-      // Height-encoded hue ramp: deep navy → portfolio blue → teal → warm amber
-      // Mirrors a LiDAR elevation colormap. Cohesive with loading screen palette.
-      const t = rise / maxRise;
-      let r: number, g: number, b: number;
-      if (t < 0.333) {
-        const f = t / 0.333;
-        r = 0.03 + (0.18 - 0.03) * f;
-        g = 0.09 + (0.42 - 0.09) * f;
-        b = 0.16 + (0.68 - 0.16) * f;
-      } else if (t < 0.666) {
-        const f = (t - 0.333) / 0.333;
-        r = 0.18 + (0.42 - 0.18) * f;
-        g = 0.42 + (0.72 - 0.42) * f;
-        b = 0.68 + (0.82 - 0.68) * f;
-      } else {
-        const f = (t - 0.666) / 0.334;
-        r = 0.42 + (0.85 - 0.42) * f;
-        g = 0.72 + (0.65 - 0.72) * f;
-        b = 0.82 + (0.30 - 0.82) * f;
-      }
-      // Drone proximity warms the ramp — "scan aura" around the flying drone
-      const warm = smooth * 0.35;
-      col[i * 3]     = r + warm * (0.95 - r);
-      col[i * 3 + 1] = g + warm * (0.55 - g);
-      col[i * 3 + 2] = b - warm * b * 0.4;
-    }
-
-    posAttr.needsUpdate = true;
-    colAttr.needsUpdate = true;
-
-    // Very slow rotation
-    if (pointsRef.current) {
-      pointsRef.current.rotation.z = Math.sin(time * 0.06) * 0.02;
-    }
+export const PointCloudScene = ({ cityData, reducedMotion = false }: Props) => {
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const elapsed = useRef(0);
+  const surface = useMemo(() => buildLidarSurface(cityData?.polygons ?? []), [cityData]);
+  const uniforms = useMemo(() => ({
+    uTime: { value: 0 }, uReveal: { value: reducedMotion ? 1 : 0 },
+    uDrone: { value: new THREE.Vector3() }, uVelocity: { value: new THREE.Vector3() }, uMotion: { value: reducedMotion ? 0 : 1 },
+  }), [reducedMotion]);
+  useFrame((_, delta) => {
+    if (!materialRef.current) return;
+    elapsed.current += Math.min(delta, 0.05);
+    uniforms.uTime.value = reducedMotion ? 0 : elapsed.current;
+    uniforms.uReveal.value = reducedMotion ? 1 : Math.min(1, elapsed.current / 0.65);
+    uniforms.uDrone.value.copy(dronePosition);
+    uniforms.uVelocity.value.copy(droneVelocity);
   });
-
-  if (!pointData) return null;
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry ref={geoRef} />
-      <pointsMaterial
-        size={0.5}
-        sizeAttenuation
-        vertexColors
-        transparent
-        opacity={0.85}
-        depthWrite={false}
-      />
-    </points>
-  );
+  return <><points frustumCulled={false}>
+    <bufferGeometry>
+      <bufferAttribute attach="attributes-position" array={surface.positions} count={surface.count} itemSize={3} />
+      <bufferAttribute attach="attributes-intensity" array={surface.intensities} count={surface.count} itemSize={1} />
+    </bufferGeometry>
+    <shaderMaterial ref={materialRef} uniforms={uniforms} transparent depthWrite={false}
+      vertexShader={`
+        attribute float intensity;
+        varying float vIntensity;
+        varying vec3 vPosition;
+        void main() {
+          vIntensity = intensity;
+          vPosition = position;
+          vec3 p = position;
+          vec4 view = modelViewMatrix * vec4(p, 1.0);
+          gl_Position = projectionMatrix * view;
+          gl_PointSize = clamp(32.0 / max(1.0, -view.z), 1.3, 3.8);
+        }
+      `}
+      fragmentShader={`
+        uniform float uTime; uniform float uReveal; uniform float uMotion;
+        uniform vec3 uDrone;
+        varying float vIntensity; varying vec3 vPosition;
+        void main() {
+          float radius = length(gl_PointCoord - 0.5);
+          if (radius > 0.5) discard;
+          float proximity = 1.0 - smoothstep(0.0, 3.2, distance(vPosition.xy, uDrone.xy));
+          float elevation = clamp(vPosition.z, 0.0, 1.0);
+          // Keep roof and street hues steady; warm variation lives in airborne returns.
+          vec3 navy = vec3(0.035, 0.10, 0.19);
+          vec3 blue = vec3(0.13, 0.35, 0.53);
+          vec3 color = mix(navy, blue, (vIntensity - 0.65) / 0.35);
+          float edge = 1.0 - smoothstep(4.0, 5.0, max(abs(vPosition.x), abs(vPosition.y)));
+          float alpha = (0.65 + elevation * 0.25 + proximity * 0.1) * vIntensity;
+          gl_FragColor = vec4(color, alpha * edge * uReveal * (1.0 - smoothstep(0.3, 0.5, radius)));
+          #include <tonemapping_fragment>
+          #include <colorspace_fragment>
+        }
+      `}
+    />
+  </points>
+    <RooftopFlow roofs={surface.roofPositions} uniforms={uniforms} />
+  </>;
 };

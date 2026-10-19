@@ -1,9 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { useRef } from 'react';
+import * as THREE from 'three';
 import { PointCloudScene } from './PointCloudScene';
 import { FlyingDrone } from './FlyingDrone';
+import { CloudPoints } from './CloudPoints';
+import { CITY_DESCENT_SECONDS } from './scanTiming';
 
 type CityData = {
   name: string;
@@ -43,45 +47,63 @@ async function loadCity(name: string): Promise<CityData | null> {
   }
 }
 
-function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = useState(false);
-
+function useFinePointer() {
+  const [enabled, setEnabled] = useState(false);
   useEffect(() => {
-    const check = () => {
-      // Desktop: width >= 1024 and landscape orientation, and not a touch-primary device
-      const wide = window.innerWidth >= 1024;
-      const landscape = window.innerWidth > window.innerHeight;
-      const noTouch = !window.matchMedia('(pointer: coarse)').matches;
-      setIsDesktop(wide && landscape && noTouch);
-    };
-
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+    const query = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const update = () => setEnabled(query.matches);
+    update();
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
   }, []);
-
-  return isDesktop;
+  return enabled;
 }
 
-const PointCloudBackground = ({ cityName }: { cityName: string }) => {
+function DescentCamera({ reducedMotion }: { reducedMotion: boolean }) {
+  const elapsed = useRef(0);
+  const target = useRef(new THREE.Vector3()).current;
+  useFrame(({ camera, size }, delta) => {
+    elapsed.current += Math.min(delta, 0.05);
+    const p = reducedMotion ? 1 : Math.min(1, elapsed.current / CITY_DESCENT_SECONDS);
+    const ease = p * p * (3 - 2 * p);
+    camera.up.set(0, 0, 1);
+    camera.position.set(0.4, -3.0 - ease * 2.5, 12 - ease * 4.2);
+    target.set(size.width > size.height ? -0.65 : 0, 0, 0);
+    camera.lookAt(target);
+  });
+  return null;
+}
+
+const PointCloudBackground = ({ cityName, reducedMotion = false }: { cityName: string; reducedMotion?: boolean }) => {
   const [data, setData] = useState<CityData | null>(null);
-  const isDesktop = useIsDesktop();
+  const hasFinePointer = useFinePointer();
+  const [visible, setVisible] = useState(true);
+  useEffect(() => {
+    const hero = document.querySelector('[data-hero-section]');
+    if (!hero) return;
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting));
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
-    loadCity(cityName).then(setData);
+    let current = true;
+    setData(null);
+    loadCity(cityName).then(next => { if (current) setData(next); });
+    return () => { current = false; };
   }, [cityName]);
 
   return (
     <Canvas
       camera={{
-        position: [0, -4, 9],
-        fov: 40,
+        position: [0.4, -3, 12],
+        fov: 48,
         near: 0.1,
         far: 100,
       }}
       gl={{ antialias: true, alpha: true }}
-      dpr={[1, 2]}
-      frameloop="always"
+      dpr={[1, 1.5]}
+      frameloop={visible && !reducedMotion ? 'always' : 'demand'}
       style={{ background: 'transparent' }}
     >
       {/* Lighting for drone */}
@@ -90,8 +112,12 @@ const PointCloudBackground = ({ cityName }: { cityName: string }) => {
       <directionalLight position={[-3, 4, -2]} intensity={0.8} color="#ccddee" />
       <directionalLight position={[0, -5, 3]} intensity={0.5} color="#ffffff" />
 
-      <PointCloudScene cityData={data} />
-      <FlyingDrone interactive={isDesktop} scale={isDesktop ? 1.2 : 0.5} />
+      {data && <group key={cityName}>
+        <DescentCamera reducedMotion={reducedMotion} />
+        <PointCloudScene cityData={data} reducedMotion={reducedMotion} />
+        <CloudPoints reducedMotion={reducedMotion} />
+        <FlyingDrone interactive={hasFinePointer && !reducedMotion} reducedMotion={reducedMotion} scale={hasFinePointer ? 0.85 : 0.55} />
+      </group>}
     </Canvas>
   );
 };

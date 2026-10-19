@@ -53,15 +53,8 @@ export function useCityRotation(active: boolean) {
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (prefersReduced) {
-      // Instant swaps, no animation
-      const interval = setInterval(() => {
-        setState((prev) => ({
-          currentIndex: (prev.currentIndex + 1) % CITIES.length,
-          nextIndex: (prev.currentIndex + 2) % CITIES.length,
-          transition: 0,
-        }));
-      }, CYCLE_DURATION * 1000);
-      return () => clearInterval(interval);
+      // Keep the map and scan still when reduced motion is requested.
+      return;
     }
 
     const schedule = () => {
