@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import fleetImage from '@public/projects/robotics-telemetry/fleet.jpg';
 import epochImage from '@public/projects/epoch/mission-map.jpg';
+import warehouseImage from '@public/projects/warehouse-drone/warehouse.png';
 
 /* ─── Mini visualizations ─── */
 
@@ -105,13 +106,16 @@ interface Project {
 const projects: Project[] = [
   {
     index: '01',
-    status: 'IN PROGRESS',
-    title: 'UAS FLIGHT TESTING',
-    tagline: 'Requirements, instrumented runs, and evidence.',
+    status: 'PROTOTYPE',
+    title: 'WAREHOUSE INVENTORY DRONE WORKFLOW',
+    tagline: 'From rack inspection to reviewable evidence.',
     description:
-      'Design and run structured flight test cards on personal UAS hardware with explicit pass/fail criteria. Compare post-flight telemetry with predictions across multiple airspeeds. Validated camera intrinsics against real EXIF data and identified a gap between published specifications and observed data.',
-    stack: ['FLIGHT TEST CARDS', 'TELEMETRY', 'EXIF VALIDATION'],
-    preview: <div className="flex h-full flex-col justify-center gap-3 font-mono text-xs"><span className="text-black/40">TEST WORKFLOW</span><span>01 / Define pass & fail criteria</span><span>02 / Fly & capture telemetry</span><span>03 / Compare results to predictions</span></div>,
+      'A simulated warehouse drone workflow connecting PX4 flight control, camera evidence, and human-reviewed inventory. Three fresh-start missions validated the capture route and return to dock after clearance and monitoring fixes.',
+    stack: ['PX4', 'GAZEBO', 'PYTHON', 'NEXT.JS', 'TYPESCRIPT'],
+    href: '/projects/warehouse-drone-simulation',
+    hrefLabel: 'READ CASE STUDY',
+    displayHref: 'Simulation · Inventory assurance',
+    preview: <Image src={warehouseImage} alt="Gazebo simulation of a camera drone between warehouse racks with an elevated home dock" className="h-full w-full object-contain" sizes="(max-width: 768px) 90vw, 560px" />,
   },
   {
     index: '02',

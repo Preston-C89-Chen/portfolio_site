@@ -8,10 +8,6 @@ const items = [
     detail: 'Building and troubleshooting a LeRobot leader–follower setup, including 3D-printed parts and mechanical assembly. Investigating follower-arm servo failures and the torque demands behind them, connecting software behavior to the limits of the physical hardware.',
   },
   {
-    label: 'FPV DRONE BUILD',
-    detail: 'Building a 5-inch FPV drone, including soldering connections for the flight controller, electronic speed controllers (ESCs), and motors. Developing hands-on experience with assembly, wiring, and troubleshooting across the flight electronics.',
-  },
-  {
     label: 'MS DATA SCIENCE',
     detail: 'University of Colorado Boulder — Computer Vision, Deep Learning, Modern AI Models for Vision',
   },
