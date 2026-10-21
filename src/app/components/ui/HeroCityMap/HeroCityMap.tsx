@@ -167,7 +167,7 @@ export const HeroCityMap = ({ revealReady = true }: HeroCityMapProps) => {
             animate={shouldReveal ? "visible" : "hidden"}
             className="font-gilroy text-[clamp(1.25rem,3vw,2rem)] font-bold uppercase leading-[1] tracking-[0.12em] bg-white/80 backdrop-blur-sm px-4 py-2 w-fit"
           >
-            Field Engineering & Integrations
+            Physical AI Engineer & Integrations
           </motion.h2>
 
           <motion.div
